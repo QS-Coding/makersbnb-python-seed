@@ -3,12 +3,12 @@ from datetime import datetime
 def test_property_init():
     property = Property(1, '123 Main Street', 45, 'This is a house', datetime(2024, 1, 1), datetime(2024, 1, 31), 1)
     assert property.id == 1
-    assert property.address == '123 Main Street'
+    assert property.name == '123 Main Street'
     assert property.price == 45
     assert property.description == 'This is a house'
     assert property.available_from == datetime(2024, 1, 1)
     assert property.available_to == datetime(2024, 1, 31)
-    assert property.user_id == 1
+    assert property.owner_id == 1
 
 def test_property_str_repr():
     property = Property(1, '123 Main Street', 45, 'This is a house', datetime(2024, 1, 1), datetime(2024, 1, 31), 1)
