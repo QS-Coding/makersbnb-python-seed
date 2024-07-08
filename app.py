@@ -1,11 +1,25 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from lib.database_connection import get_flask_database_connection
+from lib.property import Property 
+from lib.property_repository import PropertyRepository
+
 
 # Create a new Flask app
 app = Flask(__name__)
 
 # == Your Routes Here ==
+
+# GET /properties
+# to see a list of all properties
+@app.route("/properties", methods=['GET'])
+def get_all_properties():
+    connection = get_flask_database_connection(app)
+    repository = PropertyRepository(connection)
+    properties = repository.all()
+    return render_template("list_all_properties.html", properties=properties)
+
+
 
 # GET /index
 # Returns the homepage
