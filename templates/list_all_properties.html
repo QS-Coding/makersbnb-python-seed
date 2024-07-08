@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>All Properties</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>All Properties</h1>
+    <ul>
+      <!-- We'll use Jinja's `for` loop to iterate over all books -->
+      {% for property in properties %}
+        <li>
+          <!-- We can use {{ placeholders }} in HTML attributes too -->
+          <a href="/properties/{{property.id}}">{{property.name}}, {{property.price}}, {{property.description}}, {{property.available_from}}, {{property.available_to}}, {{property.owner_id}}</a>
+        </li>
+      {% endfor %}
+      <!-- Jinja isn't Python, so we need an endfor to close the loop -->
+    </ul>
+
+    <!-- This is a link to another page. -->
+    <!-- The browser will send `GET /countries/new` when the user clicks this -->
+    <a href="/properties/new">Add new property</a>
+  </body>
+</html>

@@ -21,6 +21,8 @@ def get_all_properties():
 
 
 
+
+
 # GET /index
 # Returns the homepage
 # Try it:
