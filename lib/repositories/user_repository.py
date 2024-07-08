@@ -18,11 +18,18 @@ class UserRepository():
     def login(self, email, password):
         rows = self._connection.execute("SELECT (password = crypt(%s, password)) as match from users WHERE email = %s", [password, email])
         if rows and rows[0]['match']:
-            return self.find(email)
+            return self.find_by_email(email)
         return False
     
-    def find(self, email):
+    def find_by_email(self, email):
         rows = self._connection.execute("SELECT * FROM users WHERE email = %s", [email])
+        if rows:
+            row = rows[0]
+            return User(row['id'], row['email'], row['name'], None)
+        return False
+    
+    def find_by_id(self, id):
+        rows = self._connection.execute("SELECT * FROM users WHERE id = %s", [id])
         if rows:
             row = rows[0]
             return User(row['id'], row['email'], row['name'], None)
