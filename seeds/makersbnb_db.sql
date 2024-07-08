@@ -32,6 +32,7 @@ CREATE TABLE bookings (
     requested_from DATE NOT NULL,
     requested_to DATE NOT NULL,
     is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
+    total_price FLOAT NOT NULL,
     created_at DATE NOT NULL
 );
 
@@ -44,6 +45,6 @@ ALTER TABLE bookings ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
 INSERT INTO users (name, email, password) VALUES ('Marco Polo','marco@gmail.com',crypt('mypssword', gen_salt('bf')));
 
-INSERT INTO properties (name,description, price, available_from, available_to,owner_id) VALUES ('Studio in London','Great studio to rent in the heart of London',60.0,'2024-07-01','2024-12-31',1);
+INSERT INTO properties (name,description, price, available_from, available_to, owner_id) VALUES ('Studio in London','Great studio to rent in the heart of London',60.0,'2024-07-01','2024-12-31',1);
 
-INSERT INTO bookings (property_id,user_id,requested_from, requested_to, created_at) VALUES (1,1,'2024-07-05','2024-07-11','2024-07-01')
+INSERT INTO bookings (property_id,user_id,requested_from, requested_to, total_price, created_at) VALUES (1,1,'2024-07-05','2024-07-11',360.0,'2024-07-01')
