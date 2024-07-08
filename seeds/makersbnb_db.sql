@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS bookings;
 DROP TABLE IF EXISTS properties;
 DROP TABLE IF EXISTS users;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- Users table.
 
@@ -35,8 +36,8 @@ CREATE TABLE bookings (
 );
 
 ALTER TABLE properties ADD FOREIGN KEY (owner_id) REFERENCES users (id);
-ALTER TABLE bookings ADD FOREIGN KEY (property_id) REFERENCES property (id);
-ALTER TABLE bookings ADD FOREIGN KEY (user_id) REFERENCES user_id;
+ALTER TABLE bookings ADD FOREIGN KEY (property_id) REFERENCES properties (id);
+ALTER TABLE bookings ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
 
 -- Test data
