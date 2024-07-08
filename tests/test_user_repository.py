@@ -25,9 +25,15 @@ def test_login(db_connection):
     assert repository.login('test@email.com', 'pass') == False
     assert repository.login('test@email.co.uk', 'password') == False
 
-def test_find_user(db_connection):
+def test_find_user_by_email(db_connection):
     db_connection.seed('seeds/makersbnb_db.sql')
     repository = UserRepository(db_connection)
     repository.create(User(None, 'test@email.com', 'Will Test', 'password'))
-    assert repository.find('test@email.com') == User(2, 'test@email.com', 'Will Test', None)
-    assert repository.find('test@emaasdasil.com') == False
+    assert repository.find_by_email('test@email.com') == User(2, 'test@email.com', 'Will Test', None)
+    assert repository.find_by_email('test@emaasdasil.com') == False
+
+def test_find_user_by_id(db_connection):
+    repository = UserRepository(db_connection)
+    repository.create(User(None, 'test@email.com', 'Will Test', 'password'))
+    assert repository.find_by_id(2) == User(2, 'test@email.com', 'Will Test', None)
+    assert repository.find_by_id(3) == False
