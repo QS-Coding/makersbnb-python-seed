@@ -68,7 +68,7 @@
     <h1>Current Listings - Maker's Bnb</h1>
     <h2>Properties</h2>
     <div class="property-list">
-        {% for space in spaces %}
+        {% for space in property %}
             <div class="property-item">
                 <div class="property-image"></div>
                 <a class="property-address" href="{{ url_for('property_detail', property_id=space['id']) }}">{{ space['address'] }}</a>
