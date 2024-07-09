@@ -13,15 +13,30 @@
         }
         h1 {
             color: #333;
+            text-align: center;
+        }
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .back-arrow:hover {
+            text-decoration: underline;
         }
         .property-details {
             background: #fff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
         }
         .property-image {
             width: 100%;
+            max-width: 800px;
             height: 300px;
             background-color: #ddd;
             margin-bottom: 20px;
@@ -30,26 +45,116 @@
         p {
             color: #555;
         }
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            text-decoration: none;
-            color: #007BFF;
+        table {
+            border-collapse: collapse;
+            background: white;
+            color: black;
+            margin: auto;
         }
-        a:hover {
-            text-decoration: underline;
+        th, td {
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        th {
+            background: green;
+            color: white;
+        }
+        td:hover {
+            background-color: #ccc;
+        }
+        caption {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: black;
         }
     </style>
 </head>
 <body>
+    <a href="{{ url_for('get_all_properties') }}" class="back-arrow">&larr; Back to listings</a>
     <h1>Property Details</h1>
     <div class="property-details">
         <div class="property-image"></div>
-        <p><strong>Address:</strong> {{ property['address'] }}</p>
-        <p><strong>Price:</strong> ${{ property['price'] }}</p>
-        <p><strong>Description:</strong> {{ property['description'] }}</p>
-        <p><strong>user:</strong> {{ user['name'] }}</p>
-        <a href="{{ url_for('list_all_properties') }}">Back to listings</a>
+        <p><strong>Address:</strong> {{ property.address }}</p>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+        <p><strong>Description:</strong> {{ property.description }}</p>
+        <p><strong>Owner:</strong> {{ user.name }}</p>
+
+        <!-- Calendar for selecting dates -->
+        <h2 align="center" style="color: black;">July 2024</h2>
+        <br />
+        <table bgcolor="lightgrey" align="center" cellspacing="21" cellpadding="21">
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>11</td>
+                    <td>12</td>
+                    <td>13</td>
+                    <td>14</td>
+                    <td>15</td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>18</td>
+                    <td>19</td>
+                    <td>20</td>
+                    <td>21</td>
+                    <td>22</td>
+                    <td>23</td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>25</td>
+                    <td>26</td>
+                    <td>27</td>
+                    <td>28</td>
+                    <td>29</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>31</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
