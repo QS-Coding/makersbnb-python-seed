@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, redirect, jsonify
 from lib.database_connection import get_flask_database_connection
 from lib.models.property import Property 
 import json
-#from lib.property_repository import PropertyRepository
+from lib.repositories.property_repository import PropertyRepository
 
 
 app = Flask(__name__)
@@ -28,10 +28,10 @@ def get_all_properties():
 # They also start the server configured to use the test database
 # if started in test mode.
 
-@app.route('/p_list', methods=['GET'])
-def property_list():
-    property = json.loads(request.args.get('property'))
-    return render_template('property_list.html', property=property)
+# @app.route('/p_list', methods=['GET'])
+# def property_list():
+#     property = json.loads(request.args.get('property'))
+#     return render_template('property_list.html', property=property)
 
 @app.route('/property/<int:property_id>', methods=['GET'])
 def property_detail(property_id):

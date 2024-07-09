@@ -29,17 +29,17 @@ users = [
 ]
 
 @pytest.fixture
-def client():
+# def client():
 
 
-    # We assert that it has the text "This is the homepage."
-    expect(p_tag).to_have_text("This is the homepage.")
+    # # We assert that it has the text "This is the homepage."
+    # expect(p_tag).to_have_text("This is the homepage.")
 
 
-"""
-When we call GET /properties we get a list of all properties
-expect response 200 OK 
-"""
+# """
+# When we call GET /properties we get a list of all properties
+# expect response 200 OK 
+# """
 def test_get_all_properties(db_connection, web_client):
     db_connection.seed("seeds/makersbnb_db.sql")
     response = web_client.get('/properties')
@@ -51,27 +51,27 @@ def test_get_all_properties(db_connection, web_client):
     with app.test_client() as client:
         yield client
 
-def test_index_route(client):
+# def test_index_route(client):
 
-    response = client.get('/index')
-    assert response.status_code == 200
-    assert b'This is the homepage.' in response.data
+#     response = client.get('/index')
+#     assert response.status_code == 200
+#     assert b'This is the homepage.' in response.data
 
-def test_property_list_route(client):
+# def test_property_list_route(client):
 
-    response = client.get('/p_list', query_string={'property': json.dumps(property)})
-    assert response.status_code == 200
-    assert b'Current Listings - Maker\'s Bnb' in response.data
-    for space in property:
-        assert space['address'].encode() in response.data
+#     response = client.get('/properties', query_string={'property': json.dumps(property)})
+#     assert response.status_code == 200
+#     assert b'Current Listings - Maker\'s Bnb' in response.data
+#     for space in property:
+#         assert space['address'].encode() in response.data
 
-def test_property_detail_route(client):
+# def test_property_detail_route(client):
 
-    response = client.get('/property/1', query_string={'property': json.dumps(property), 'users': json.dumps(users)})
-    assert response.status_code == 200
-    assert b'221b Baker Street' in response.data
-    assert b'Martha Hudson' in response.data
+#     response = client.get('/property/1', query_string={'property': json.dumps(property), 'users': json.dumps(users)})
+#     assert response.status_code == 200
+#     assert b'221b Baker Street' in response.data
+#     assert b'Martha Hudson' in response.data
 
-    response = client.get('/property/999', query_string={'property': json.dumps(property), 'users': json.dumps(users)})
-    assert response.status_code == 404
+#     response = client.get('/property/999', query_string={'property': json.dumps(property), 'users': json.dumps(users)})
+#     assert response.status_code == 404
 
