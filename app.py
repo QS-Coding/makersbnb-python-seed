@@ -11,20 +11,20 @@ def get_index():
 
 @app.route('/p_list', methods=['GET'])
 def property_list():
-    spaces = json.loads(request.args.get('spaces'))
-    return render_template('property_list.html', spaces=spaces)
+    property = json.loads(request.args.get('property'))
+    return render_template('property_list.html', property=property)
 
 @app.route('/property/<int:property_id>', methods=['GET'])
 def property_detail(property_id):
-    spaces = json.loads(request.args.get('spaces'))
-    owners = json.loads(request.args.get('owners'))
+    property = json.loads(request.args.get('property'))
+    users = json.loads(request.args.get('users'))
 
     # Find the property by ID
-    property = next((space for space in spaces if space['id'] == property_id), None)
+    property = next((space for space in property if space['id'] == property_id), None)
     if property:
-        # Find the owner by ID
-        owner = next((owner for owner in owners if owner['id'] == property['owner_id']), None)
-        return render_template('property_detail.html', property=property, owner=owner)
+        # Find the user by ID
+        user = next((user for user in users if user['id'] == property['user_id']), None)
+        return render_template('property_detail.html', property=property, user=user)
     else:
         return "Property not found", 404
 
