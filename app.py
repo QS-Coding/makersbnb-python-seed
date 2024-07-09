@@ -1,19 +1,45 @@
 import os
 
-from flask import Flask, request, render_template, redirect, jsonify
+from flask import Flask, request, render_template, redirect, jsonify, session, abort
 from lib.database_connection import get_flask_database_connection
 from lib.models.property import Property 
 from lib.repositories.property_repository import PropertyRepository
+from lib.repositories.user_repository import UserRepository
+
 import json
 #from lib.property_repository import PropertyRepository
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY']='1b973299943650f6c7daf012'
 
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
 
+
+# App fake login endpoint. To be replaced by a real one later.
+
+@app.route("/fake_login",methods = ['GET'])
+def fake_login():
+    connection = get_flask_database_connection(app)
+    repository = UserRepository(connection)
+    user = repository.login('marco@gmail.com','mypssword') #To be replaced by values from html form.
+    if user:
+        session['logged_in']=True
+        session['email']=user.email 
+        session['user_id']=user.id 
+        return f"You are logged in as: {session['email']} with id: {user.id}"
+    else:
+        error = "User email or password is incorrect."
+        return error 
+
+# App fake logout endpoint. To be replaced by a real one later.
+@app.route("/fake_logout", methods = ['GET'])
+def fake_logout():
+    if 'logged_in' in session:
+        session.pop('logged_in')
+    return redirect("/index")
 
 # GET /properties
 # to see a list of all properties
@@ -51,13 +77,16 @@ def property_detail(property_id):
 # List properties owned by a specific user (owner)
 @app.route("/properties/owner/<int:owner_id>", methods = ['GET'])
 def get_properties_by_owner(owner_id):
+    if 'logged_in' not in session:
+        abort(403)
     connection = get_flask_database_connection(app)
     repository = PropertyRepository(connection)
     properties = repository.find_by_owner_id(owner_id)
     if properties:
-        return render_template('properties_by_owner.html', properties = properties)
-    else:
-        return "Can't find properties for this owner", 404
+        if owner_id==session['user_id']:
+            return render_template('properties_by_owner.html', properties = properties)
+        else:
+            abort(403)
 
 if __name__ == '__main__':
     # Run the Flask application
