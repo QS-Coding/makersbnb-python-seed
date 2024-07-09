@@ -1,0 +1,5 @@
+{
+  "tests/test_app.py::test_get_all_properties": true,
+  "tests/test_app.py::test_get_index[chromium]": true,
+  "tests/test_database_connection.py::test_database_connection": true
+}

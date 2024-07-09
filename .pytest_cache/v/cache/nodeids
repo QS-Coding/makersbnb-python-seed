@@ -1,0 +1,14 @@
+[
+  "tests/test_app.py::test_get_all_properties",
+  "tests/test_app.py::test_get_index[chromium]",
+  "tests/test_booking.py::test_booking_init",
+  "tests/test_booking.py::test_eq",
+  "tests/test_booking.py::test_str_repr",
+  "tests/test_database_connection.py::test_database_connection",
+  "tests/test_property.py::test_eq",
+  "tests/test_property.py::test_property_init",
+  "tests/test_property.py::test_property_str_repr",
+  "tests/test_user.py::test_eq",
+  "tests/test_user.py::test_user_init",
+  "tests/test_user.py::test_user_str_rep"
+]
