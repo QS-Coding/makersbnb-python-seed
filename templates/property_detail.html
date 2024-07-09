@@ -81,7 +81,8 @@
         <p><strong>Address:</strong> {{ property.address }}</p>
         <p><strong>Price:</strong> ${{ property.price }}</p>
         <p><strong>Description:</strong> {{ property.description }}</p>
-        <p><strong>Owner:</strong> {{ user.name }}</p>
+        <p><strong>Owner:</strong> <a href="{{ url_for('get_properties_by_owner', owner_id=property.owner_id) }}">{{ user.name }}</a>
+        </p>
 
         <!-- Calendar for selecting dates -->
         <h2 align="center" style="color: black;">July 2024</h2>
