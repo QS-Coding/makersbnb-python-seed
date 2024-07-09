@@ -47,6 +47,12 @@ def property_detail(property_id):
     else:
         return "Property not found", 404
 
+# GET /properties/new
+# Returns a form to create a new property
+@app.route('/properties/new', methods=['GET'])
+def new_property():
+    return render_template('new_property.html') 
+
 
 if __name__ == '__main__':
     # Run the Flask application
