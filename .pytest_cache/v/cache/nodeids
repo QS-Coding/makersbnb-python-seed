@@ -1,6 +1,9 @@
 [
   "tests/test_app.py::test_get_all_properties",
   "tests/test_app.py::test_get_index[chromium]",
+  "tests/test_app.py::test_index_route",
+  "tests/test_app.py::test_property_detail_route",
+  "tests/test_app.py::test_property_list_route",
   "tests/test_booking.py::test_booking_init",
   "tests/test_booking.py::test_eq",
   "tests/test_booking.py::test_str_repr",
@@ -8,7 +11,16 @@
   "tests/test_property.py::test_eq",
   "tests/test_property.py::test_property_init",
   "tests/test_property.py::test_property_str_repr",
+  "tests/test_property_repository.py::test_all",
+  "tests/test_property_repository.py::test_create_property",
+  "tests/test_property_repository.py::test_find",
+  "tests/test_property_repository.py::test_find_by_owner",
   "tests/test_user.py::test_eq",
   "tests/test_user.py::test_user_init",
-  "tests/test_user.py::test_user_str_rep"
+  "tests/test_user.py::test_user_str_rep",
+  "tests/test_user_repository.py::test_create_user",
+  "tests/test_user_repository.py::test_find_user_by_email",
+  "tests/test_user_repository.py::test_find_user_by_id",
+  "tests/test_user_repository.py::test_get_all_users",
+  "tests/test_user_repository.py::test_login"
 ]
