@@ -53,6 +53,19 @@ def property_detail(property_id):
 def new_property():
     return render_template('new_property.html') 
 
+# POST /properties
+# creates a new property 
+@app.route('/properties', methods=['POST'])
+def create_property():
+    connection = get_flask_database_connection(app)
+    repository = PropertyRepository(connection)
+    property = Property(None, request.form['name'], request.form['price'], request.form['description'], request.form['available_from'],request.form['available_to'], request.form['owner_id'])
+    if not property.is_valid():
+        return render_template('properties/new_property.html', 
+            property=property, errors=property.generate_errors()), 400 
+    property = repository.create(property)
+    return redirect(f"/properties/{property.id}")  
+
 
 if __name__ == '__main__':
     # Run the Flask application
