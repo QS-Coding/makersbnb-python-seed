@@ -1,5 +1,3 @@
-__pycache__
-.vscode
-.pytest_cache
-screenshot.png
 venv/
+**pycache**
+**pytest_cache**
