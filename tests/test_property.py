@@ -2,6 +2,7 @@ from lib.models.property import *
 from datetime import datetime
 def test_property_init():
     property = Property(1, '123 Main Street',  'This is a house', 45, datetime(2024, 1, 1), datetime(2024, 1, 31), 1)
+
     assert property.id == 1
     assert property.name == '123 Main Street'
     assert property.price == 45

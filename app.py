@@ -1,22 +1,33 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template,  jsonify
 from lib.database_connection import get_flask_database_connection
+import json
 
-# Create a new Flask app
 app = Flask(__name__)
 
-# == Your Routes Here ==
-
-# GET /index
-# Returns the homepage
-# Try it:
-#   ; open http://localhost:5001/index
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
 
-# These lines start the server if you run this file directly
-# They also start the server configured to use the test database
-# if started in test mode.
+@app.route('/p_list', methods=['GET'])
+def property_list():
+    spaces = json.loads(request.args.get('spaces'))
+    return render_template('property_list.html', spaces=spaces)
+
+@app.route('/property/<int:property_id>', methods=['GET'])
+def property_detail(property_id):
+    spaces = json.loads(request.args.get('spaces'))
+    owners = json.loads(request.args.get('owners'))
+
+    # Find the property by ID
+    property = next((space for space in spaces if space['id'] == property_id), None)
+    if property:
+        # Find the owner by ID
+        owner = next((owner for owner in owners if owner['id'] == property['owner_id']), None)
+        return render_template('property_detail.html', property=property, owner=owner)
+    else:
+        return "Property not found", 404
+
 if __name__ == '__main__':
-    app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
+    # Run the Flask application
+    app.run(debug=True, port=5001)
