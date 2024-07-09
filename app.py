@@ -2,7 +2,11 @@ import os
 import json
 from flask import Flask, request, render_template, redirect, jsonify
 from lib.database_connection import get_flask_database_connection
+
 from lib.repositories.user_repository import UserRepository
+
+from lib.models.property import Property 
+
 from lib.repositories.property_repository import PropertyRepository
 
 app = Flask(__name__)
@@ -48,6 +52,19 @@ def property_detail(property_id):
         return render_template('property_detail.html', property=property, user=user)
     else:
         return "Property not found", 404
+
+
+# List properties owned by a specific user (owner)
+@app.route("/properties/owner/<int:owner_id>", methods = ['GET'])
+def get_properties_by_owner(owner_id):
+    connection = get_flask_database_connection(app)
+    repository = PropertyRepository(connection)
+    properties = repository.find_by_owner_id(owner_id)
+    if properties:
+        return render_template('properties_by_owner.html', properties = properties)
+    else:
+        return "Can't find properties for this owner", 404
+
 
 if __name__ == '__main__':
     # Run the Flask application
