@@ -13,6 +13,14 @@ app = Flask(__name__)
 def get_index():
     return render_template('index.html')
 
+@app.route('/new_user', methods=['GET'])
+def new_user():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    confirm_password = request.form.get('password')
+    return
+
 
 # GET /properties
 # to see a list of all properties
@@ -51,3 +59,4 @@ def property_detail(property_id):
 if __name__ == '__main__':
     # Run the Flask application
     app.run(debug=True, port=5001)
+
