@@ -55,5 +55,4 @@ def test_all_bookings_by_property_id(db_connection):
     assert repository.all_bookings_of_property(1) == [
         Booking(1, 1, 1, date(2024, 7, 5), date(2024, 7, 11), False, 360.0, date(2024, 7, 1)),
         Booking(2, 1, 1, date(2024, 9, 1), date(2024, 9, 4), False, 300.0, date(2024, 7, 9))
-    ]
-
+    ]  
