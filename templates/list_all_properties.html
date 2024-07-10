@@ -4,7 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property List</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .sign-in {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .sign-in:hover {
+            background-color: #0056b3;
+        }
+        .property-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .property-item {
+            background: #fff;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .property-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .property-image {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .property-address {
+            font-size: 1.2em;
+            color: #007BFF;
+            margin: 10px 0;
+            display: block;
+            text-decoration: none;
+        }
+        .property-address:hover {
+            text-decoration: underline;
+        }
+        .property-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .property-price {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            display: block;
+            margin-top: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="header">
