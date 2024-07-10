@@ -1,12 +1,11 @@
 import os
-from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for
+from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for, current_app, send_from_directory
 import json
 from datetime import datetime
 from lib.database_connection import get_flask_database_connection
 from lib.repositories.user_repository import UserRepository
 from lib.models.property import Property
 from lib.models.booking import Booking
-from lib.models.user import User
 from lib.repositories.property_repository import PropertyRepository
 from lib.repositories.booking_repository import BookingRepository
 
@@ -14,37 +13,13 @@ app = Flask(__name__)
 app.config['SECRET_KEY']='1b973299943650f6c7daf012'
 
 # Route for the homepage
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def get_index():
     """
     Route for the homepage.
     :return: Renders the index.html template.
     """
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        pass_1 = request.form['pass']
-        pass_2 = request.form['confpass']
-        if pass_1 != pass_2:
-            error = "The passwords dont match."
-            return render_template('index.htm', error=error)
-        else: 
-            connection = get_flask_database_connection(app)
-            repository = UserRepository(connection) 
-            new_user = User(None, email=email, name=name, password=pass_1)    
-            repository.create(new_user)
-            return redirect(url_for('login'))
     return render_template('index.html')
-
-
-@app.route('/dashboard', methods=['GET'])
-def dashboard():
-    """
-    Route for the homepage.
-    :return: Renders the index.html template.
-    """
-    return render_template('dashboard.html')
-
 
 # Route for login (temporary, replace with actual logic)
 @app.route('/login', methods=['GET', 'POST'])
@@ -54,19 +29,11 @@ def login():
     :return: Renders the login.html template on GET, processes login on POST.
     """
     if request.method == 'POST':
-        connection = get_flask_database_connection(app)
-        repository = UserRepository(connection)
-        user = repository.login (request.form['email'],request.form['password'])
-        if user:
-            session['logged_in']=True
-            session['email']=user.email 
-            session['user_id']=user.id 
-            # return f"You are logged in as: {session['email']} with id: {user.id}"
-            return redirect(url_for('dashboard'))
-        else:
-            error = "User email or password is incorrect."
-        return render_template('login.html', error=error)
-    return render_template('login.html')    
+        # Implement login logic here
+        session['logged_in'] = True
+        session['username'] = request.form['username']
+        return redirect(url_for('get_index'))
+    return render_template('login.html')
 
 # Route for logging out
 @app.route('/logout')
@@ -188,7 +155,28 @@ def get_properties_by_owner(owner_id):
             abort(403)
 
 
+
+
+'''
+Image Route Section
+'''
+
+@app.route('/image', methods=['GET'])
+def get_image():
+    try:
+        # Log the request
+        app.logger.info('Photo endpoint was hit.')
+        # Send the image file from the static folder
+        return send_from_directory(current_app.static_folder, 'images.jpeg')
+    except Exception as e:
+        app.logger.error(f'Error: {e}')
+        return 'File not found', 404
+
+
+
 if __name__ == '__main__':
     # Run the Flask application
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
+
+
 
