@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        .property-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .property-item {
+            background: #fff;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .property-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .property-image {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .property-address {
+            font-size: 1.2em;
+            color: #007BFF;
+            margin: 10px 0;
+        }
+        .property-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .property-price {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Current Listings - Maker's Bnb</h1>
+    <h2>Properties</h2>
+    <div class="property-list">
+        {% for space in property %}
+            <div class="property-item">
+                <div class="property-image"></div>
+                <a class="property-address" href="{{ url_for('property_detail', property_id=space['id']) }}">{{ space['address'] }}</a>
+                <p class="property-description">{{ space['description'] }}</p>
+                <p class="property-price">${{ space['price'] }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
