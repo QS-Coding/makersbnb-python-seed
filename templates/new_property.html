@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Properties</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>New Property</h1>
+    <form action="/properties/created" method="post">
+      {% if errors %}
+        <p class="t-errors">
+          There were errors with your submission: {{ errors }}
+        </p>
+      {% endif %}
+
+      <p>
+        <label for="name">Property Name</label>
+        <input type="text" name="name" id="name" required>
+      </p>
+      <p>
+        <label for="description">Property Description</label>
+        <input type="text" name="description" id="description" required>
+      </p>
+      <p>
+        <label for="price">Price</label>
+        <input type="text" name="price" id="price" required>
+      </p>
+      <p>
+        <label for="available_from">Available from </label>
+        <input type="text" name="available_from" id="available_from" required>
+      </p>
+      <p>
+        <label for="available_to">Available to </label>
+        <input type="text" name="available_to" id="available_to" required>
+      </p>
+      <p>
+        <input type="submit" value="Add Property">
+      </p>
+    </form>
+  </body>
+</html>
+
+
