@@ -1,48 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Properties</title>
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>New Property</title>
-      <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-  </head>
-  </head>
-  <body>
-    <h1>New Property</h1>
-    <form action="/properties/created" method="post">
-      {% if errors %}
-        <p class="t-errors">
-          There were errors with your submission: {{ errors }}
-        </p>
-      {% endif %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Property - MakersBNB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <style>
+        .property-form-container {
+            background: var(--container-bg);
+            color: var(--text-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+            animation: pageFadeIn 1s ease-in-out forwards;
+        }
 
-      <p>
-        <label for="name">Property Name</label>
-        <input type="text" name="name" id="name" required>
-      </p>
-      <p>
-        <label for="description">Property Description</label>
-        <input type="text" name="description" id="description" required>
-      </p>
-      <p>
-        <label for="price">Price</label>
-        <input type="text" name="price" id="price" required>
-      </p>
-      <p>
-        <label for="available_from">Available from </label>
-        <input type="date" name="available_from" id="available_from" required>
-      </p>
-      <p>
-        <label for="available_to">Available to </label>
-        <input type="date" name="available_to" id="available_to" required>
-      </p>
-      <p>
-        <input type="submit" value="Add Property">
-      </p>
-    </form>
-  </body>
+        .property-form-container h1 {
+            margin-bottom: 20px;
+        }
+
+        .property-form-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .property-form-container label {
+            margin: 10px 0 5px;
+        }
+
+        .property-form-container input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .property-form-container input[type="submit"] {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .property-form-container input[type="submit"]:hover {
+            background: var(--button-hover-bg);
+        }
+
+        .t-errors {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="property-form-container">
+        <h1>New Property</h1>
+        <form action="/properties/created" method="post">
+            {% if errors %}
+            <p class="t-errors">
+                There were errors with your submission: {{ errors }}
+            </p>
+            {% endif %}
+            <label for="name">Property Name</label>
+            <input type="text" name="name" id="name" required>
+            <label for="description">Property Description</label>
+            <input type="text" name="description" id="description" required>
+            <label for="price">Price</label>
+            <input type="text" name="price" id="price" required>
+            <label for="available_from">Available from</label>
+            <input type="date" name="available_from" id="available_from" required>
+            <label for="available_to">Available to</label>
+            <input type="date" name="available_to" id="available_to" required>
+            <input type="submit" value="Add Property">
+        </form>
+    </div>
+</body>
 </html>
-
-

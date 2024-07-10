@@ -13,8 +13,8 @@ from lib.repositories.booking_repository import BookingRepository
 app = Flask(__name__)
 app.config['SECRET_KEY']='1b973299943650f6c7daf012'
 
-# Route for the homepage
-@app.route('/', methods=['GET', 'POST'])
+# Route for the sign up page
+@app.route('/signup', methods=['GET', 'POST'])
 def get_index():
     """
     Route for the homepage.
@@ -37,13 +37,13 @@ def get_index():
     return render_template('index.html')
 
 
-@app.route('/dashboard', methods=['GET'])
+@app.route('/', methods=['GET'])
 def dashboard():
     """
     Route for the homepage.
     :return: Renders the index.html template.
     """
-    return render_template('dashboard.html')
+    return render_template('Home.html')
 
 
 # Route for login (temporary, replace with actual logic)

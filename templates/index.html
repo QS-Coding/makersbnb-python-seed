@@ -1,41 +1,88 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>MakersBnB</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an account - MakersBNB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <style>
+        .register-container {
+            background: var(--container-bg);
+            color: var(--text-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+            animation: pageFadeIn 1s ease-in-out forwards;
+        }
 
-        <!--
-            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
-        <link rel="stylesheet" href="/static/theme.css" >
-    </head>
-    <body>
-        <p></p>
-    </body>
-</html>
-<!DOCTYPE html>
-<html>
-<title>Create an account - MakersBNB</title>
+        .register-container h1, .register-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .register-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .register-container label {
+            margin: 10px 0 5px;
+        }
+
+        .register-container input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .register-container input[type="submit"] {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .register-container input[type="submit"]:hover {
+            background: var(--button-hover-bg);
+        }
+
+        .register-container p {
+            margin-top: 20px;
+        }
+
+        .register-container a {
+            color: var(--primary-color);
+        }
+
+        .register-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <body>
-<h1>Makers BNB </h1>
-
-<h2>Register your account</h2>
-
-<form action="/" method="post">
-  <label for ="name">Name:</label><br>
-  <input type="text" id="name" name="name" value=""><br>
-  <label for="uname">Email:</label><br>
-  <input type="text" id="email" name="email" value=""><br>
-  <label for="pass">Password:</label><br>
-  <input type="password" id="pass" name="pass" value=""><br>
-  <label for="confpass">Confirm Password:</label><br>
-  <input type="password" id="confpass" name="confpass" value=""><br><br>
-  <input type="submit" value="Submit">
-</form> 
-
-
-<p>Already have an account? <a href="http://localhost:5001/login">Sign in</a></p>
-
-
+    <div class="register-container">
+        <h1>Makers BNB</h1>
+        <h2>Register your account</h2>
+        <form action="/" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+            <label for="pass">Password:</label>
+            <input type="password" id="pass" name="pass" required>
+            <label for="confpass">Confirm Password:</label>
+            <input type="password" id="confpass" name="confpass" required>
+            <input type="submit" value="Submit">
+        </form>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+    </div>
 </body>
-</html> 
+</html>
