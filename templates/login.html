@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Sign in - MakersBNB<</title>
 </head>
 <body>
-    <h1>Login</h1>
+    <h1>Makers BNB </h1>
+
+    <h2>Sign in to your account</h2>
+    <p> {{ error }} </p>
+
     <form method="POST" action="{{ url_for('login') }}">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
+        <label for="username">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <br><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <br>
         <button type="submit">Login</button>
     </form>
+    <p>Don't have an account yet? <a href="{{ url_for('get_index') }}">Register here</a></p>
 </body>
 </html>
