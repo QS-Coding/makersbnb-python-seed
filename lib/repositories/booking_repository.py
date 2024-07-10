@@ -1,6 +1,6 @@
 from lib.models.booking import *
 
-class BookingRepoistory:
+class BookingRepository:
     
     def __init__(self, connection) -> None:
         self._connection = connection
