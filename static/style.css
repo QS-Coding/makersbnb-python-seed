@@ -1,18 +1,25 @@
+html {
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 20px;
 }
+
 h1, h2 {
     color: #333;
     text-align: center;
 }
+
 .property-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
+
 .property-item {
     background: #fff;
     margin: 15px;
@@ -22,10 +29,12 @@ h1, h2 {
     width: 300px;
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .property-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
+
 .property-image {
     width: 100%;
     height: 200px;
@@ -33,6 +42,7 @@ h1, h2 {
     margin-bottom: 10px;
     border-radius: 5px;
 }
+
 .property-address {
     font-size: 1.2em;
     color: #007BFF;
@@ -40,7 +50,7 @@ h1, h2 {
 }
 
 .property-name {
-    font-size: 1.2em;
+    font-size: 20px;
     color: #007BFF;
     margin: 10px 0;
 }
@@ -55,10 +65,12 @@ h1, h2 {
     color: #333;
     margin-top: 10px;
 }
+
 a {
     text-decoration: none;
     color: #007BFF;
 }
+
 a:hover {
     text-decoration: underline;
 }

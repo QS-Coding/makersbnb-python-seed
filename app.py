@@ -157,5 +157,5 @@ def get_properties_by_owner(owner_id):
 
 if __name__ == '__main__':
     # Run the Flask application
-
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
+
