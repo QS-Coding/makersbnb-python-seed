@@ -3,6 +3,8 @@ from app import app
 from lib.models.user import User
 from lib.models.property import Property
 from lib.repositories.property_repository import PropertyRepository
+from playwright.sync_api import Page, expect
+
 
 # Sample property data as instances of Property model
 property_data = [
@@ -84,3 +86,45 @@ def test_property_detail_route(property_repository):
 
     property = property_repository.find_by_id(999)
     assert property is None
+
+"""
+When we create a new property
+We see it in list_all_properties
+"""
+def test_create_property(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makersbnb_db.sql")
+    page.goto(f"http://{test_web_address}/properties")
+    page.click("text=Add Property")
+    page.fill("input[name='name']", "Terrace in Italy")
+    page.fill("input[name='description']", "large terrace")
+    page.fill("input[name='price']", "50")
+    page.fill("input[name='available_from']", "2024-07-01")
+    page.fill("input[name='available_to']", "2024-12-31")
+    page.click("text=Add Property")
+
+    name_element = page.locator(".t-name")
+    expect(name_element).to_have_text("Property Name: Terrace in Italy")
+
+    description_element = page.locator(".t-description")
+    expect(description_element).to_have_text("Property Description: large terrace")
+
+    price_element = page.locator(".t-price")
+    expect(price_element).to_have_text("Price: 50")
+
+    available_from_element = page.locator(".t-available_from")
+    expect(available_from_element).to_have_text("Available from: 2024-07-01")
+
+    available_to_element = page.locator(".t-available_to")
+    expect(available_to_element).to_have_text("Available to: 2024-12-31")
+
+"""
+If we create a new property without one of the fields
+We see an error message
+"""
+def test_create_property_error(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makersbnb_db.sql")
+    page.goto(f"http://{test_web_address}/properties")
+    page.click("text=Add new property")
+    page.click("text=Add Property")
+    errors = page.locator(".t-errors")
+    expect(errors).to_have_text("There were errors with your submission: Property Name can't be blank, Property Description can't be blank, Price can't be blank, Available from can't be blank, Available to can't be blank")
