@@ -15,6 +15,24 @@
             color: #333;
             text-align: center;
         }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .sign-in {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .sign-in:hover {
+            background-color: #0056b3;
+        }
         .property-list {
             display: flex;
             flex-wrap: wrap;
@@ -70,29 +88,38 @@
             text-decoration: underline;
         }
     </style>
-  </head>
-  <body>
-      <h1>All Properties</h1>
-      <div class="property-list">
-          <!-- Iterate over properties and display each one -->
-          {% for property in properties %}
-          <div class="property-item">
-              <div class="property-image"></div>
-              <a class="property-address" href="/property/{{ property.id }}">
-                  {{ property.address }}
-              </a>
-              <a class="property-name" href="/property/{{ property.id }}">
-                  {{ property.name }}
-              </a>
-              <div class="property-description">
-                  {{ property.description }}
-              </div>
-              <div class="property-price">
-                  ${{ property.price }}
-              </div>
-          </div>
-          {% endfor %}
-      </div>
+</head>
+<body>
+    <div class="header">
+        <h1>All Properties</h1>
+        <a href="{{ url_for('login') }}" class="sign-in">
+            {% if session['logged_in'] %}
+                {{ session['username'] }}
+            {% else %}
+                Sign In
+            {% endif %}
+        </a>
+    </div>
+    <div class="property-list">
+        <!-- Iterate over properties and display each one -->
+        {% for property in properties %}
+        <div class="property-item">
+            <div class="property-image"></div>
+            <a class="property-address" href="/property/{{ property.id }}">
+                {{ property.address }}
+            </a>
+            <a class="property-name" href="/property/{{ property.id }}">
+                {{ property.name }}
+            </a>
+            <div class="property-description">
+                {{ property.description }}
+            </div>
+            <div class="property-price">
+                ${{ property.price }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
     <!-- Link to add a new property -->
     <a href="/properties/new" style="text-align: center; display: block; margin-top: 20px;">Add new property</a>
