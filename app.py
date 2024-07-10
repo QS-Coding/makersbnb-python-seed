@@ -65,7 +65,7 @@ def new_property():
 def create_property():
     connection = get_flask_database_connection(app)
     repository = PropertyRepository(connection)
-    property = Property(None, request.form['name'], request.form['price'], request.form['description'], request.form['available_from'],request.form['available_to'], request.form['owner_id'])
+    property = Property(None, request.form['name'], request.form['price'], request.form['description'], request.form['available_from'],request.form['available_to'], None)#, request.form['owner_id'])
     if not property.is_valid():
         return render_template('properties/new_property.html', 
             property=property, errors=property.generate_errors()), 400 
