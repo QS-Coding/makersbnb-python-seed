@@ -139,6 +139,31 @@ def property_detail(property_id):
     else:
         return "Property not found", 404
 
+
+# GET /properties/new
+# displays a form to create a new property
+@app.route('/properties/new', methods=['GET'])
+def new_property():
+    if 'user_id' not in session:
+        abort(403)
+    return render_template('new_property.html') 
+
+# POST /properties
+# creates a new property 
+@app.route('/properties/created', methods=['POST'])
+def create_property():
+    if 'user_id' not in session:
+        abort(403)
+    owner_id = session['user_id']
+    connection = get_flask_database_connection(app)
+    repository = PropertyRepository(connection)
+    property = Property(None, request.form['name'], request.form['description'],request.form['price'], request.form['available_from'],request.form['available_to'], owner_id)
+    if not property.is_valid():
+        return render_template('properties/new_property.html', 
+            property=property, errors=property.generate_errors()), 400 
+    property = repository.add(property)
+    return redirect(f"/property/{property.id}")  
+
 # Route for adding a booking
 @app.route('/add_booking', methods=['POST'])
 def add_booking():
