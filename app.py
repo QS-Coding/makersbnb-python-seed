@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for
+from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for, send_from_directory, current_app
 import json
 from datetime import datetime
 from lib.database_connection import get_flask_database_connection
@@ -186,6 +186,24 @@ def get_properties_by_owner(owner_id):
             return render_template('properties_by_owner.html', properties = properties)
         else:
             abort(403)
+
+
+
+
+'''
+Image Route Section
+'''
+
+@app.route('/image', methods=['GET'])
+def get_image():
+    try:
+        # Log the request
+        app.logger.info('Photo endpoint was hit.')
+        # Send the image file from the static folder
+        return send_from_directory(current_app.static_folder, 'images.jpeg')
+    except Exception as e:
+        app.logger.error(f'Error: {e}')
+        return 'File not found', 404
 
 
 if __name__ == '__main__':
