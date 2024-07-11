@@ -11,7 +11,7 @@
         <h1>All Properties</h1>
         <a href="{{ url_for('login') }}" class="sign-in">
             {% if session['logged_in'] %}
-                {{ session['username'] }}
+                {{ session['email'] }}
             {% else %}
                 Sign In
             {% endif %}

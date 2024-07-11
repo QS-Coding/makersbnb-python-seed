@@ -71,7 +71,8 @@
     <div class="register-container">
         <h1>Makers BNB</h1>
         <h2>Register your account</h2>
-        <form action="/" method="post">
+        <p class="error">{{ error }}</p>
+        <form action="{{ url_for('signup')}}" method="post">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
             <label for="email">Email:</label>

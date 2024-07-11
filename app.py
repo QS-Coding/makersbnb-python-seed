@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for
 import json
-from datetime import datetime
+from datetime import datetime, date
 from lib.database_connection import get_flask_database_connection
 from lib.repositories.user_repository import UserRepository
 from lib.models.property import Property
@@ -15,7 +15,7 @@ app.config['SECRET_KEY']='1b973299943650f6c7daf012'
 
 # Route for the sign up page
 @app.route('/signup', methods=['GET', 'POST'])
-def get_index():
+def signup():
     """
     Route for the homepage.
     :return: Renders the index.html template.
@@ -27,14 +27,14 @@ def get_index():
         pass_2 = request.form['confpass']
         if pass_1 != pass_2:
             error = "The passwords dont match."
-            return render_template('index.htm', error=error)
+            return render_template('sighnup.html', error=error)
         else: 
             connection = get_flask_database_connection(app)
             repository = UserRepository(connection) 
             new_user = User(None, email=email, name=name, password=pass_1)    
             repository.create(new_user)
             return redirect(url_for('login'))
-    return render_template('index.html')
+    return render_template('signup.html')
 
 
 @app.route('/', methods=['GET'])
@@ -76,8 +76,9 @@ def logout():
     :return: Redirects to the homepage.
     """
     session.pop('logged_in', None)
-    session.pop('username', None)
-    return redirect(url_for('get_index'))
+    session.pop('email', None)
+    session.pop('user_id',None)
+    return redirect(url_for('dashboard'))
 
 # App fake login endpoint. To be replaced by a real one later.
 
@@ -145,7 +146,7 @@ def property_detail(property_id):
 @app.route('/properties/new', methods=['GET'])
 def new_property():
     if 'user_id' not in session:
-        abort(403)
+        return redirect(url_for('login'))
     return render_template('new_property.html') 
 
 # POST /properties
@@ -202,7 +203,7 @@ def add_booking():
 @app.route("/properties/owner/<int:owner_id>", methods = ['GET'])
 def get_properties_by_owner(owner_id):
     if 'logged_in' not in session:
-        abort(403)
+        return redirect(url_for('login'))
     connection = get_flask_database_connection(app)
     repository = PropertyRepository(connection)
     properties = repository.find_by_owner_id(owner_id)
@@ -210,7 +211,32 @@ def get_properties_by_owner(owner_id):
         if owner_id==session['user_id']:
             return render_template('properties_by_owner.html', properties = properties)
         else:
-            abort(403)
+            return f"<h3> Sorry, but you can see detail of your properties only. </h3>"
+        
+"""
+Bookings endpoints section
+"""
+
+# Add new booking for the specific property
+@app.route("/bookings/new", methods = ['POST'])
+def new_booking():
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    property_id = request.form['property_id']
+    user_id = session['user_id']
+    requested_from = request.form['startDate']
+    requested_to = request.form['endDate']
+    title = request.form['title']
+    price = request.form['price']
+    if property_id!="" and user_id!="" and requested_from!="" and requested_to!="" and title!="":
+        connection = get_flask_database_connection(app)
+        booking_repository = BookingRepository(connection)
+        days = datetime.strptime(requested_to, '%Y-%m-%d').date() - datetime.strptime(requested_from, '%Y-%m-%d').date()
+        total_price = float(price) * float(days.days)
+        booking = Booking(None,property_id=property_id, user_id=user_id, requested_from=requested_from, requested_to=requested_to, is_confirmed=False, total_price=total_price,created_at=datetime.now())
+        booking_repository.create(booking)
+    return f"New booking request created"
+
 
 
 if __name__ == '__main__':
