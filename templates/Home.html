@@ -151,11 +151,14 @@
                 </div>
                 <div class="btns">
                     <button class="btns_more" onclick="window.location.href='{{ url_for('get_all_properties') }}'">View Listings</button>
-                    <button class="btns_more" onclick="window.location.href='{{ url_for('login') }}'">
                         {% if session['logged_in'] %}
-                            {{ session['username'] }}
+                        <button class="btns_more" onclick="window.location.href='{{ url_for('logout') }}'">
+                            {{ session['email'] }}
+                        </button>
                         {% else %}
+                        <button class="btns_more" onclick="window.location.href='{{ url_for('login') }}'">
                             Log In
+                        </button>
                         {% endif %}
                     </button>
                 </div>

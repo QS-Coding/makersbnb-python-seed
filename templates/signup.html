@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in - MakersBNB</title>
+    <title>Create an account - MakersBNB</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
     <style>
-        .login-container {
+        .register-container {
             background: var(--container-bg);
             color: var(--text-color);
             padding: 20px;
@@ -18,21 +18,21 @@
             animation: pageFadeIn 1s ease-in-out forwards;
         }
 
-        .login-container h1, .login-container h2 {
+        .register-container h1, .register-container h2 {
             margin-bottom: 20px;
         }
 
-        .login-container form {
+        .register-container form {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .login-container label {
+        .register-container label {
             margin: 10px 0 5px;
         }
 
-        .login-container input {
+        .register-container input {
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -40,7 +40,7 @@
             margin-bottom: 15px;
         }
 
-        .login-container button {
+        .register-container input[type="submit"] {
             background: var(--button-bg);
             color: white;
             border: none;
@@ -50,36 +50,40 @@
             width: 100%;
         }
 
-        .login-container button:hover {
+        .register-container input[type="submit"]:hover {
             background: var(--button-hover-bg);
         }
 
-        .login-container p {
+        .register-container p {
             margin-top: 20px;
         }
 
-        .login-container a {
+        .register-container a {
             color: var(--primary-color);
         }
 
-        .login-container a:hover {
+        .register-container a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="register-container">
         <h1>Makers BNB</h1>
-        <h2>Sign in to your account</h2>
-        <p>{{ error }}</p>
-        <form method="POST" action="{{ url_for('login') }}">
+        <h2>Register your account</h2>
+        <p class="error">{{ error }}</p>
+        <form action="{{ url_for('signup')}}" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+            <label for="pass">Password:</label>
+            <input type="password" id="pass" name="pass" required>
+            <label for="confpass">Confirm Password:</label>
+            <input type="password" id="confpass" name="confpass" required>
+            <input type="submit" value="Submit">
         </form>
-        <p>Don't have an account yet? <a href="{{ url_for('signup') }}">Register here</a></p>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
     </div>
 </body>
 </html>
