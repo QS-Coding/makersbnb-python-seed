@@ -165,40 +165,6 @@ def create_property():
     property = repository.add(property)
     return redirect(f"/property/{property.id}")  
 
-# Route for adding a booking
-@app.route('/add_booking', methods=['POST'])
-def add_booking():
-    """
-    Route for adding a booking.
-    :return: JSON response indicating success or failure.
-    """
-    data = request.get_json()
-    start_date = data['startDate']
-    end_date = data['endDate']
-    title = data['title']
-
-    connection = get_flask_database_connection(app)
-    booking_repository = BookingRepository(connection)
-
-    # Create a new booking object
-    booking = Booking(
-        property_id=1,  # Replace with actual property_id
-        user_id=1,      # Replace with actual user_id
-        requested_from=start_date,
-        requested_to=end_date,
-        is_confirmed=False,
-        total_price=100,  # Replace with actual price calculation
-        created_at=datetime.now()
-    )
-
-    try:
-        booking_repository.create(booking)
-        return jsonify({'status': 'success'})
-    except Exception as e:
-        print(e)
-        return jsonify({'status': 'failure'}), 500
-
-
 # List properties owned by a specific user (owner)
 @app.route("/properties/owner/<int:owner_id>", methods = ['GET'])
 def get_properties_by_owner(owner_id):
@@ -235,9 +201,43 @@ def new_booking():
         total_price = float(price) * float(days.days)
         booking = Booking(None,property_id=property_id, user_id=user_id, requested_from=requested_from, requested_to=requested_to, is_confirmed=False, total_price=total_price,created_at=datetime.now())
         booking_repository.create(booking)
+    else:
+        error = "It seems you haven't specified the dates of your booking request."
+        return f"<h3>{error}</h3>"
     return f"New booking request created"
 
+# Route for adding a booking
+# @app.route('/add_booking', methods=['POST'])
+# def add_booking():
+#     """
+#     Route for adding a booking.
+#     :return: JSON response indicating success or failure.
+#     """
+#     data = request.get_json()
+#     start_date = data['startDate']
+#     end_date = data['endDate']
+#     title = data['title']
 
+#     connection = get_flask_database_connection(app)
+#     booking_repository = BookingRepository(connection)
+
+#     # Create a new booking object
+#     booking = Booking(
+#         property_id=1,  # Replace with actual property_id
+#         user_id=1,      # Replace with actual user_id
+#         requested_from=start_date,
+#         requested_to=end_date,
+#         is_confirmed=False,
+#         total_price=100,  # Replace with actual price calculation
+#         created_at=datetime.now()
+#     )
+
+#     try:
+#         booking_repository.create(booking)
+#         return jsonify({'status': 'success'})
+#     except Exception as e:
+#         print(e)
+#         return jsonify({'status': 'failure'}), 500
 
 if __name__ == '__main__':
     # Run the Flask application
