@@ -212,6 +212,20 @@ def get_properties_by_owner(owner_id):
         else:
             abort(403)
 
+# List all bookings by a specific user (guest)
+@app.route("/bookings/user/<int:user_id>", methods = ['GET'])
+def get_bookings_by_user(user_id):
+    if 'logged_in' not in session:
+        abort(403)
+    connection = get_flask_database_connection(app)
+    repository = BookingRepository(connection)
+    bookings = repository.find_by_owner_id(user_id)
+    if bookings:
+        if user_id==session['user_id']:
+            return render_template('properties_by_owner.html', bookings = bookings)
+        else:
+            abort(403)
+
 
 if __name__ == '__main__':
     # Run the Flask application
