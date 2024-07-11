@@ -15,6 +15,7 @@
   "tests/test_booking.py::test_eq",
   "tests/test_booking.py::test_str_repr",
   "tests/test_database_connection.py::test_database_connection",
+  "tests/test_new_booking.py::test_new_booking[chromium]",
   "tests/test_property.py::test_eq",
   "tests/test_property.py::test_property_init",
   "tests/test_property.py::test_property_str_repr",
