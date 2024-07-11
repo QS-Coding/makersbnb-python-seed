@@ -205,7 +205,21 @@ def new_booking():
     else:
         error = "It seems you haven't specified the dates of your booking request."
         return f"<h3>{error}</h3>"
-    return f"New booking request created"
+    return redirect(url_for('my_bookings'))
+
+# List booking requests created by me
+# FOR KARLA TO SUBSTITUTE WITH HER FUNCTION
+@app.route("/bookings/my", methods = ['GET'])
+def my_bookings():
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    connection = get_flask_database_connection(app)
+    booking_repository = BookingRepository(connection)
+    my_requests = booking_repository.all_bookings_of_user(session['user_id'])
+    print (f"HERE MY BOOKINGS!!")
+    print (f"{my_requests}")
+    return render_template("my_bookings.html", my_requests = my_requests)
+
 
 # Route for adding a booking
 # @app.route('/add_booking', methods=['POST'])

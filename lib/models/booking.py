@@ -14,3 +14,4 @@ class Booking():
     
     def __eq__(self, value: object) -> bool:
         return self.__dict__ == value.__dict__
+    

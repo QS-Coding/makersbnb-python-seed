@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My bookings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>All Properties</h1>
+        <a href="{{ url_for('login') }}" class="sign-in">
+            {% if session['logged_in'] %}
+                {{ session['email'] }}
+            {% else %}
+                Sign In
+            {% endif %}
+        </a>
+    </div>
+    <div class="my-bookings">
+        <!-- Iterate over properties and display each one -->
+            <table border="1">
+                <tr>
+                    <th>
+                        Booking Id
+                    </th>
+                    <th>
+                        Property Id
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th>
+                        Confirmed
+                    </th>
+                    <th>
+                        Total Price
+                    </th>
+                    <th>
+                        Created
+                    </th>
+                </tr>
+                {% for booking in my_requests %}
+                <tr>
+                    <td>
+                        {{booking.id}}
+                    </td>
+                    <td>
+                        {{booking.property_id}}
+                    </td>
+                    <td>
+                        {{booking.requested_from}}
+                    </td>
+                    <td>{{booking.requested_to}}</td>
+                    <td>
+                        {{booking.is_confirmed}}
+                    </td>
+                    <td>
+                        {{booking.total_price}}
+                    </td>
+                    <td>
+                        {{booking.created_at}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+    </div>
+</body>
+</html>
