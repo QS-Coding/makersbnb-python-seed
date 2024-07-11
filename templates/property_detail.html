@@ -8,6 +8,7 @@
     <style>
         .property-details {
             background: var(--container-bg);
+            background-color: white;
             color: var(--text-color);
             padding: 20px;
             border-radius: 10px;
@@ -154,7 +155,7 @@
         </a>
         <button class="sign-in">
             {% if session['logged_in'] %}
-                {{ session['username'] }}
+                {{ session['email'] }}
             {% else %}
                 <a href="{{ url_for('login') }}">Sign In</a>
             {% endif %}
@@ -163,7 +164,7 @@
     <h1>Property Details</h1>
     <div class="property-details">
         <div class="property-image"></div>
-        <p><strong>Address:</strong> {{ property.address }}</p>
+        <p><strong>Property:</strong> {{ property.name }}</p>
         <p><strong>Price:</strong> ${{ property.price }}</p>
         <p><strong>Description:</strong> {{ property.description }}</p>
         <p><strong>Owner:</strong> <a href="{{ url_for('get_properties_by_owner', owner_id=property.owner_id) }}">{{ user.name }}</a></p>
@@ -173,10 +174,16 @@
             <div class="container-calendar">
                 <div id="event-section">
                     <h3>Add Booking</h3>
-                    <input type="date" id="startDate" placeholder="Start Date">
-                    <input type="date" id="endDate" placeholder="End Date">
-                    <input type="text" id="bookingTitle" placeholder="Booking Title">
-                    <button id="addBooking" onclick="addBooking()">Add Booking</button>
+                    <form action="/bookings/new" method="POST">
+                        <input type="hidden" id="property_id" name="property_id" value="{{ property.id }}">
+                        <input type="date" id="startDate" name="startDate" placeholder="Start Date">
+                        <input type="date" id="endDate" name="endDate" placeholder="End Date">
+                        <input type="hidden" id="title" name="title" value="{{ property.name }} for {{ user.name }}">
+                        <input type="hidden" id="price" name="price" value="{{ property.price }}">
+                        <button type="submit">Add Booking</button>
+                        <!-- <input type="text" id="bookingTitle" placeholder="Booking Title"> -->
+                        <!-- <button id="addBooking" onclick="addBooking()">Add Booking</button> -->
+                    </form>
                 </div>
                 <h3 id="monthAndYear"></h3>
                 <div class="month-navigation button-container-calendar">
