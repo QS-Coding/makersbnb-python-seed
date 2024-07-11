@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for, send_from_directory, current_app
 import json
 from datetime import datetime, date
+from datetime import datetime, date
 from lib.database_connection import get_flask_database_connection
 from lib.repositories.user_repository import UserRepository
 from lib.models.property import Property
@@ -238,24 +239,6 @@ def new_booking():
 #     except Exception as e:
 #         print(e)
 #         return jsonify({'status': 'failure'}), 500
-
-
-
-'''
-Image Route Section
-'''
-
-@app.route('/image', methods=['GET'])
-def get_image():
-    try:
-        # Log the request
-        app.logger.info('Photo endpoint was hit.')
-        # Send the image file from the static folder
-        return send_from_directory(current_app.static_folder, 'images.jpeg')
-    except Exception as e:
-        app.logger.error(f'Error: {e}')
-        return 'File not found', 404
-
 
 if __name__ == '__main__':
     # Run the Flask application
