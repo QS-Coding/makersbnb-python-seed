@@ -1,17 +1,18 @@
+/* Existing styles */
 html {
     box-sizing: border-box;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #30659a;
-    color: #2a3335;
+    background-color: #F0FFF0; /* Pale Green for a soft background */
+    color: #2a3335; /* Dark color for text */
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 h1, h2 {
-    color: #000000;
+    color: #483D8B; /* Dark Slate Blue for headings */
     text-align: center;
 }
 
@@ -22,8 +23,8 @@ h1, h2 {
 }
 
 .property-item {
-    background: #6d95bd;
-    color: #2a3335;
+    background: #8FBC8F; /* Dark Sea Green for property items */
+    color: #2a3335; /* Dark text */
     margin: 15px;
     padding: 15px;
     border-radius: 10px;
@@ -47,25 +48,25 @@ h1, h2 {
 
 .property-address, .property-name {
     font-size: 1.2em;
-    color: #000000;
+    color: #483D8B; /* Dark Slate Blue for links */
     margin: 10px 0;
 }
 
 .property-description {
     font-size: 0.9em;
-    color: #000000;
+    color: #2a3335; /* Dark text for description */
 }
 
 .property-price {
     font-size: 1.1em;
     font-weight: bold;
-    color: #2a3335;
+    color: #4B8B3B; /* Forest Green for price */
     margin-top: 10px;
 }
 
 a {
     text-decoration: none;
-    color: #000000;
+    color: #483D8B; /* Dark Slate Blue for links */
 }
 
 a:hover {
@@ -80,7 +81,7 @@ a:hover {
 }
 
 .sign-in {
-    background-color: #000000;
+    background-color: #483D8B; /* Dark Slate Blue for buttons */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -90,15 +91,15 @@ a:hover {
 }
 
 .sign-in:hover {
-    background-color: #1A6C99;
+    background-color: #4B8B3B; /* Forest Green for button hover */
 }
 
 .container-calendar {
     background: #ffffff;
     color: #2a3335;
-    padding: 15px;
-    max-width: 900px;
-    margin: 0 auto;
+    padding: 30px; /* Increased padding for better spacing */
+    max-width: 1000px; /* Increased width */
+    margin: 20px auto; /* Centered with margin */
     overflow: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     display: flex;
@@ -106,11 +107,223 @@ a:hover {
     align-items: center;
 }
 
+.table-calendar {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    background: #115c6d;
+}
+
+.table-calendar th,
+.table-calendar td {
+    padding: 20px; /* Increased padding for larger cells */
+    border: 1px solid #e2e2e2;
+    text-align: center;
+    vertical-align: top;
+}
+
+.table-calendar .weekdays {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.table-calendar .date-picker {
+    position: relative;
+    cursor: pointer; /* Changed to pointer to show interactivity */
+    background: var(--button-bg);
+    color: white;
+    border-radius: 5px;
+    font-size: 1.2em; /* Larger font size for better readability */
+}
+
+.table-calendar .date-picker.selected {
+    background-color: #add8e6; /* Light blue */
+    font-weight: bold;
+}
+
+.table-calendar .date-picker.between {
+    background-color: #add8e6; /* Light blue */
+    font-weight: bold;
+    color: white;
+}
+
+.table-calendar .date-marker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1); /* Gray out booked dates */
+    pointer-events: none;
+    border-radius: 5px;
+}
+
+#event-section {
+    padding: 20px; /* Increased padding */
+    background: var(--container-bg);
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    width: 100%; /* Full width for better layout */
+    text-align: center;
+    border-radius: 10px;
+}
+
+#event-section h3 {
+    color: #333;
+    font-size: 1.5em; /* Increased font size */
+    margin: 0 0 20px 0;
+}
+
+#event-section input[type="date"],
+#event-section input[type="text"] {
+    margin: 10px 0;
+    padding: 10px; /* Increased padding */
+    width: 80%;
+    max-width: 300px;
+}
+
+#event-section button {
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Increased padding */
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button-container-calendar {
+    position: relative;
+    margin-bottom: 1em;
+    overflow: hidden;
+    clear: both;
+    text-align: center;
+}
+
 .button-container-calendar button {
     cursor: pointer;
-    background: #000000;
-    color: #fff;
-    border: 1px solid #000000;
+    background: #115c6d;
+    color: #ffffff;
+    border: 1px solid var(--button-bg);
     border-radius: 4px;
-    padding: 5px 10px;
+    padding: 10px 20px; /* Increased padding */
+    font-size: 1em; /* Increased font size */
+}
+
+.footer-container-calendar {
+    margin-top: 20px; /* Increased margin for spacing */
+    font-size: 1em; /* Increased font size */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    border: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+#main {
+    transition: margin-left 0.5s;
+    padding: 20px; /* Ensure there's some padding around the main content */
+}
+
+/* Property Form Container Styles */
+.property-form-container {
+    background: var(--container-bg);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+    animation: pageFadeIn 1s ease-in-out forwards;
+}
+
+.property-form-container h1 {
+    margin-bottom: 20px;
+}
+
+.property-form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.property-form-container label {
+    margin: 10px 0 5px;
+}
+
+.property-form-container input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.property-form-container input[type="submit"] {
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.property-form-container input[type="submit"]:hover {
+    background: var(--button-hover-bg);
+}
+
+.t-errors {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
 }
