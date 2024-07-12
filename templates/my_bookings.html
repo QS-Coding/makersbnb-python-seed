@@ -11,7 +11,7 @@
         <button class="sign-in">&larr; Back to listings</button>
     </a>
     <div class="header">
-        <h1>All Properties</h1>
+        <h1>My bookings</h1>
         <a href="{{ url_for('login') }}" class="sign-in">
             {% if session['logged_in'] %}
                 {{ session['email'] }}
@@ -24,49 +24,21 @@
         <!-- Iterate over properties and display each one -->
             <table border="1">
                 <tr>
-                    <th>
-                        Booking Id
-                    </th>
-                    <th>
-                        Property Id
-                    </th>
-                    <th>
-                        Start Date
-                    </th>
-                    <th>
-                        End Date
-                    </th>
-                    <th>
-                        Confirmed
-                    </th>
-                    <th>
-                        Total Price
-                    </th>
-                    <th>
-                        Created
-                    </th>
+                    <th>Property Name</th>
+                    <th>Requested By</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Confirmed</th>
+                    <th>Total Price</th>
                 </tr>
                 {% for booking in my_requests %}
                 <tr>
-                    <td>
-                        {{booking.id}}
-                    </td>
-                    <td>
-                        {{booking.property_id}}
-                    </td>
-                    <td>
-                        {{booking.requested_from}}
-                    </td>
-                    <td>{{booking.requested_to}}</td>
-                    <td>
-                        {{booking.is_confirmed}}
-                    </td>
-                    <td>
-                        {{booking.total_price}}
-                    </td>
-                    <td>
-                        {{booking.created_at}}
-                    </td>
+                    <td>{{ booking.property_name }}</td>
+                    <td>{{ booking.requested_by }}</td>
+                    <td>{{ booking.requested_from }}</td>
+                    <td>{{ booking.requested_to }}</td>
+                    <td>{{ booking.is_confirmed }}</td>
+                    <td>{{ booking.total_price }}</td>
                 </tr>
                 {% endfor %}
             </table>
