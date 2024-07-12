@@ -14,6 +14,7 @@
         <a href="{{ url_for('get_all_properties') }}">Property Listings</a>
         {% if session['logged_in'] %}
         <a href="{{ url_for('get_properties_by_owner', owner_id=session['user_id']) }}">My Properties</a>
+        <a href="{{ url_for('my_bookings') }}">My Bookings</a>
         <a href="{{ url_for('logout') }}">Logout</a>
         {% else %}
         <a href="{{ url_for('signup') }}">Register</a>
