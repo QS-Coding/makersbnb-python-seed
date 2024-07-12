@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My bookings</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-</head>
-<body>
-    <a href="{{ url_for('get_all_properties') }}" class="back-arrow">
-        <button class="sign-in">&larr; Back to listings</button>
+{% extends "base_with_sidebar.html" %}
+
+{% block title %}My bookings{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('get_all_properties') }}" class="back-arrow">
+    <button class="sign-in">&larr; Back to listings</button>
+</a>
+<div class="header">
+    <h1>My Bookings</h1>
+    <a href="{{ url_for('login') }}" class="sign-in">
+        {% if session['logged_in'] %}
+            {{ session['email'] }}
+        {% else %}
+            Sign In
+        {% endif %}
     </a>
     <div class="header">
         <h1>My bookings</h1>

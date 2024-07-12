@@ -1,46 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property List</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-</head>
-<body>
-    <div class="header">
-        <h1>All Properties</h1>
-        <a href="{{ url_for('login') }}" class="sign-in">
-            {% if session['logged_in'] %}
-                {{ session['email'] }}
-            {% else %}
-                Sign In
-            {% endif %}
-        </a>
-    </div>
-    <div class="property-list">
-        <!-- Iterate over properties and display each one -->
-        {% for property in properties %}
-        <div class="property-item">
-            <div class="property-image">
-                <img src="/image/{{ property.id }}" width="300" height="200" sizes="">
-            </div>
-            <a class="property-address" href="/property/{{ property.id }}">
-                {{ property.address }}
-            </a>
-            <a class="property-name" href="/property/{{ property.id }}">
-                {{ property.name }}
-            </a>
-            <div class="property-description">
-                {{ property.description }}
-            </div>
-            <div class="property-price">
-                ${{ property.price }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+{% extends "base_with_sidebar.html" %}
 
-    <!-- Link to add a new property -->
-    <a href="/properties/new" style="text-align: center; display: block; margin-top: 20px;">Add new property</a>
-</body>
-</html>
+{% block title %}Property List{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>All Properties</h1>
+    <a href="{{ url_for('login') }}" class="sign-in">
+        {% if session['logged_in'] %}
+            {{ session['email'] }}
+        {% else %}
+            Sign In
+        {% endif %}
+    </a>
+</div>
+<div class="property-list">
+    <!-- Iterate over properties and display each one -->
+    {% for property in properties %}
+    <div class="property-item">
+        <div class="property-image">
+            <img src="/image/{{ property.id }}" width="300" height="200" sizes="">
+        </div>
+        <a class="property-address" href="/property/{{ property.id }}">
+            {{ property.address }}
+        </a>
+        <a class="property-name" href="/property/{{ property.id }}">
+            {{ property.name }}
+        </a>
+        <div class="property-description">
+            {{ property.description }}
+        </div>
+        <div class="property-price">
+            ${{ property.price }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Link to add a new property -->
+<a href="/properties/new" style="text-align: center; display: block; margin-top: 20px;">Add new property</a>
+{% endblock %}

@@ -169,6 +169,16 @@ def create_property():
         return render_template('properties/new_property.html', 
             property=property, errors=property.generate_errors()), 400 
     property = repository.add(property)
+    if 'file' not in request.files:
+        return 'No file or property ID provided', 400
+    file = request.files['file']
+    if file.filename == '':
+        return 'No selected file', 400
+    # Read the file data
+    image_data = file.read() 
+    repository = ImageRepository(connection) 
+    repository.insert_image(property.id, image_data)
+
     return redirect(f"/property/{property.id}")  
 
 # List properties owned by a specific user (owner)
