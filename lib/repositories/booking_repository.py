@@ -1,6 +1,6 @@
 from lib.models.booking import *
 from lib.models.property import *
-import datetime
+from datetime import datetime 
 class BookingRepository:
     
     def __init__(self, connection) -> None:
@@ -64,7 +64,9 @@ class BookingRepository:
         property = Property(row['id'], row['name'], row['description'], row['price'], row['available_from'], row['available_to'], row['owner_id'])
 
         # Check if the booking dates are within the property's available dates
-        if not (booking.requested_from >= property.available_from and booking.requested_to <= property.available_to):
+        requested_from = datetime.strptime(booking.requested_from, '%Y-%m-%d').date()
+        requested_to = datetime.strptime(booking.requested_to, '%Y-%m-%d').date()
+        if not (requested_from >= property.available_from and requested_to <= property.available_to):
             return False
 
         # Check for overlapping confirmed bookings
