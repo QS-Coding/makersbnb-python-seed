@@ -1,89 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create an account - MakersBNB</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-    <style>
-        .register-container {
-            background: var(--container-bg);
-            color: var(--text-color);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 50px auto;
-            text-align: center;
-            animation: pageFadeIn 1s ease-in-out forwards;
-        }
+{% extends "base_with_sidebar.html" %}
 
-        .register-container h1, .register-container h2 {
-            margin-bottom: 20px;
-        }
+{% block title %}Create an account - MakersBNB{% endblock %}
 
-        .register-container form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .register-container label {
-            margin: 10px 0 5px;
-        }
-
-        .register-container input {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .register-container input[type="submit"] {
-            background: var(--button-bg);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            width: 100%;
-        }
-
-        .register-container input[type="submit"]:hover {
-            background: var(--button-hover-bg);
-        }
-
-        .register-container p {
-            margin-top: 20px;
-        }
-
-        .register-container a {
-            color: var(--primary-color);
-        }
-
-        .register-container a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="register-container">
-        <h1>Makers BNB</h1>
-        <h2>Register your account</h2>
-        <p class="error">{{ error }}</p>
-        <form action="{{ url_for('signup')}}" method="post">
+{% block content %}
+<div class="register-container">
+    <h1>Makers BNB</h1>
+    <h2>Register your account</h2>
+    <p class="error">{{ error }}</p>
+    <form action="{{ url_for('signup')}}" method="post">
+        <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" required>
+        </div>
+        <div class="form-group">
             <label for="pass">Password:</label>
             <input type="password" id="pass" name="pass" required>
+        </div>
+        <div class="form-group">
             <label for="confpass">Confirm Password:</label>
             <input type="password" id="confpass" name="confpass" required>
-            <input type="submit" value="Submit">
-        </form>
-        <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
-    </div>
-</body>
-</html>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit" class="submit-button">
+        </div>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+</div>
+{% endblock %}
