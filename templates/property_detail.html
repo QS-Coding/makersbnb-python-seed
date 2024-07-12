@@ -163,7 +163,9 @@
     </div>
     <h1>Property Details</h1>
     <div class="property-details">
-        <div class="property-image"></div>
+        <div class="property-image">
+            <img src="/image/{{ property.id }}" width="300" height="250">
+        </div>
         <p><strong>Property:</strong> {{ property.name }}</p>
         <p><strong>Price:</strong> ${{ property.price }}</p>
         <p><strong>Description:</strong> {{ property.description }}</p>

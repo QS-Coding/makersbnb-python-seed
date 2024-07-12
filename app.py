@@ -1,5 +1,6 @@
-import os
-from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for, send_from_directory, current_app
+import os,io
+import psycopg
+from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for, send_from_directory, current_app, send_file
 import json
 from datetime import datetime, date
 from datetime import datetime, date
@@ -8,8 +9,10 @@ from lib.repositories.user_repository import UserRepository
 from lib.models.property import Property
 from lib.models.booking import Booking
 from lib.models.user import User
+from lib.models.image import Image
 from lib.repositories.property_repository import PropertyRepository
 from lib.repositories.booking_repository import BookingRepository
+from lib.repositories.image_repository import ImageRepository
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='1b973299943650f6c7daf012'
@@ -235,6 +238,39 @@ def get_all_my_bookings_by_user(user_id):
             return render_template('bookings_by_user.html', bookings = bookings)
         else:
             return f"<h3> Sorry, but you can see detail of your bookings only. </h3>"
+"""
+Upload images prototype
+FOR SAHRA TO INTEGRATE TO ADD PROPERY
+"""
+# Display upload form
+@app.route('/upload')
+def upload_form():
+    return render_template('upload.html')
+
+# Upload image to database
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files or 'property_id' not in request.form:
+        return 'No file or property ID provided', 400
+    file = request.files['file']
+    property_id = request.form['property_id']
+    if file.filename == '':
+        return 'No selected file', 400
+    # Read the file data
+    image_data = file.read()
+    connection = get_flask_database_connection(app)
+    image_repository = ImageRepository(connection)
+    # Insert image into the database
+    image_repository.insert_image(property_id, image_data)
+    return redirect(url_for('upload_form'))
+
+# Display image by property_id
+@app.route("/image/<int:property_id>", methods = ['GET'])
+def get_image_by_property_id(property_id):
+    connection = get_flask_database_connection(app)
+    image_repository = ImageRepository(connection)
+    image = image_repository.find_by_property_id(property_id)
+    return send_file(io.BytesIO(image.image), mimetype='image/jpeg')
 
 # Route for adding a booking
 # @app.route('/add_booking', methods=['POST'])

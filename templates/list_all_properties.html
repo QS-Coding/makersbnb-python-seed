@@ -21,7 +21,9 @@
         <!-- Iterate over properties and display each one -->
         {% for property in properties %}
         <div class="property-item">
-            <div class="property-image"></div>
+            <div class="property-image">
+                <img src="/image/{{ property.id }}" width="300" height="200" sizes="">
+            </div>
             <a class="property-address" href="/property/{{ property.id }}">
                 {{ property.address }}
             </a>
