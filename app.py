@@ -8,11 +8,13 @@ from lib.database_connection import get_flask_database_connection
 from lib.repositories.user_repository import UserRepository
 from lib.models.property import Property
 from lib.models.booking import Booking
+from lib.models.my_booking import MyBooking
 from lib.models.user import User
 from lib.models.image import Image
 from lib.repositories.property_repository import PropertyRepository
 from lib.repositories.booking_repository import BookingRepository
 from lib.repositories.image_repository import ImageRepository
+from lib.repositories.my_booking_repo import MyBookingRepo
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='1b973299943650f6c7daf012'
@@ -220,19 +222,15 @@ def new_booking():
         return f"<h3>{error}</h3>"
     return redirect(url_for('my_bookings'))
 
-# List booking requests created by me
-# FOR KARLA TO SUBSTITUTE WITH HER FUNCTION
+# List booking requests created by me as a user (guest)
 @app.route("/bookings/my", methods = ['GET'])
 def my_bookings():
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     connection = get_flask_database_connection(app)
-    booking_repository = BookingRepository(connection)
-    my_requests = booking_repository.all_bookings_of_user(session['user_id'])
-    print (f"HERE MY BOOKINGS!!")
-    print (f"{my_requests}")
+    my_booking_repository = MyBookingRepo(connection)
+    my_requests = my_booking_repository.all_my_bookings(session['user_id'])
     return render_template("my_bookings.html", my_requests = my_requests)
-
 
 """
 Upload images prototype
