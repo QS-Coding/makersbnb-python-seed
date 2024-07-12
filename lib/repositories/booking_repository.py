@@ -15,8 +15,10 @@ class BookingRepository:
         return bookings
     
     def create(self, booking):
-        self._connection.execute("INSERT INTO bookings (property_id, user_id, requested_from, requested_to, total_price, created_at) VALUES (%s, %s, %s, %s, %s, %s)", [booking.property_id, booking.user_id, booking.requested_from, booking.requested_to, booking.total_price, booking.created_at])
-        return 
+        if self.is_booking_available():
+            self._connection.execute("INSERT INTO bookings (property_id, user_id, requested_from, requested_to, total_price, created_at) VALUES (%s, %s, %s, %s, %s, %s)", [booking.property_id, booking.user_id, booking.requested_from, booking.requested_to, booking.total_price, booking.created_at])
+            return True
+        return False
 
     def find_by_id(self, id):
         rows = self._connection.execute("SELECT * FROM bookings WHERE id = %s", [id])
