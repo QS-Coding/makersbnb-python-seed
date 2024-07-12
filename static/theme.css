@@ -334,17 +334,19 @@ a:hover {
 }
 
 .property-form-container input[type="submit"] {
-    background: var(--button-bg);
+    background: #483D8B; /* Dark Slate Blue for buttons */
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
+    font-size: 1em; /* Ensure font size is readable */
+    transition: background 0.3s;
 }
 
 .property-form-container input[type="submit"]:hover {
-    background: var(--button-hover-bg);
+    background: #4B8B3B; /* Forest Green for button hover */
 }
 
 .t-errors {
