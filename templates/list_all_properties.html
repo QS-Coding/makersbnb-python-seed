@@ -4,84 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property List</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        h1, h2 {
-            color: #333;
-            text-align: center;
-        }
-        .property-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .property-item {
-            background: #fff;
-            margin: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 300px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .property-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-        .property-image {
-            width: 100%;
-            height: 200px;
-            background-color: #ddd;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .property-address {
-            font-size: 1.2em;
-            color: #007BFF;
-            margin: 10px 0;
-        }
-        .property-description {
-            font-size: 0.9em;
-            color: #666;
-        }
-        .property-price {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #333;
-            margin-top: 10px;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-  <head>
-    <title>All Properties</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <h1>All Properties</h1>
-    <ul>
-      <!-- We'll use Jinja's `for` loop to iterate over all books -->
-      {% for property in properties %}
-        <li>
-          <!-- We can use {{ placeholders }} in HTML attributes too -->
-          <a href="/properties/{{property.id}}">{{property.name}}, {{property.price}}, {{property.description}}, {{property.available_from}}, {{property.available_to}}, {{property.owner_id}}</a>
-        </li>
-      {% endfor %}
-      <!-- Jinja isn't Python, so we need an endfor to close the loop -->
-    </ul>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>All Properties</h1>
+        <a href="{{ url_for('login') }}" class="sign-in">
+            {% if session['logged_in'] %}
+                {{ session['email'] }}
+            {% else %}
+                Sign In
+            {% endif %}
+        </a>
+    </div>
+    <div class="property-list">
+        <!-- Iterate over properties and display each one -->
+        {% for property in properties %}
+        <div class="property-item">
+            <div class="property-image"></div>
+            <a class="property-address" href="/property/{{ property.id }}">
+                {{ property.address }}
+            </a>
+            <a class="property-name" href="/property/{{ property.id }}">
+                {{ property.name }}
+            </a>
+            <div class="property-description">
+                {{ property.description }}
+            </div>
+            <div class="property-price">
+                ${{ property.price }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-    <!-- This is a link to another page. -->
-    <!-- The browser will send `GET /countries/new` when the user clicks this -->
-    <a href="/properties/new">Add new property</a>
-  </body>
+    <!-- Link to add a new property -->
+    <a href="/properties/new" style="text-align: center; display: block; margin-top: 20px;">Add new property</a>
+</body>
 </html>

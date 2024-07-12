@@ -1,5 +1,13 @@
 {
-  "tests/test_app.py::test_get_all_properties": true,
   "tests/test_app.py::test_get_index[chromium]": true,
-  "tests/test_database_connection.py::test_database_connection": true
+  "tests/test_database_connection.py::test_database_connection": true,
+  "tests/test_app.py::test_index_route": true,
+  "tests/test_app.py::test_property_list_route": true,
+  "tests/test_app.py::test_property_detail_route": true,
+  "tests/test_user_repository.py::test_get_all_users": true,
+  "tests/test_user_repository.py::test_create_user": true,
+  "tests/test_user_repository.py::test_login": true,
+  "tests/test_user_repository.py::test_find_user_by_email": true,
+  "tests/test_user_repository.py::test_find_user_by_id": true,
+  "tests/test_new_booking.py::test_new_booking[chromium]": true
 }

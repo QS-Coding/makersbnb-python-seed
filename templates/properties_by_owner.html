@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties by Owner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('get_all_properties') }}" class="back-arrow">
+        <button class="sign-in">&larr; Back to listings</button>
+    </a>
+    <h2>My Properties</h2>
+    <div class="property-list">
+        {% for space in properties %}
+        <div class="property-item">
+            <div class="property-image"></div>
+            <a class="property-name" href="{{ url_for('property_detail', property_id=space['id']) }}">{{ space['name'] }}</a>
+            <p class="property-description">{{ space['description'] }}</p>
+            <p class="property-price">${{ space['price'] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

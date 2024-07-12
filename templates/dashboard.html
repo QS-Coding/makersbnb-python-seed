@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maker'sBnB</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://source.unsplash.com/1600x900/?home,interior') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .red-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: red;
+            animation: collapse 3s forwards;
+            z-index: -1;
+        }
+        .logo-container {
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInText 3s forwards;
+            animation-delay: 3s;
+        }
+        h1 {
+            font-size: 4em;
+            font-weight: bold;
+            color: red;
+        }
+        .menu {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeInMenu 1s forwards;
+            animation-delay: 4s;
+        }
+        .menu button {
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .menu button:hover {
+            background-color: rgba(0, 123, 255, 1);
+            transform: translateY(-3px);
+        }
+        @keyframes collapse {
+            0% {
+                clip-path: inset(0% 0% 0% 0%);
+            }
+            100% {
+                clip-path: inset(50% 50% 50% 50%);
+            }
+        }
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInMenu {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="red-screen"></div>
+    <div class="logo-container">
+        <h1>Maker'sBnB</h1>
+    </div>
+    <div class="menu">
+        <button onclick="window.location.href='{{ url_for('get_all_properties') }}'">View Listings</button>
+        <button onclick="window.location.href='{{ url_for('login') }}'">
+            {% if session['logged_in'] %}
+                {{ session['email'] }}
+            {% else %}
+                Log In
+            {% endif %}
+        </button>
+    </div>
+</body>
+</html>

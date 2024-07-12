@@ -4,52 +4,410 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
-        }
         .property-details {
-            background: #fff;
+            background: var(--container-bg);
+            background-color: white;
+            color: var(--text-color);
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
         }
+
         .property-image {
             width: 100%;
+            max-width: 800px;
             height: 300px;
             background-color: #ddd;
             margin-bottom: 20px;
             border-radius: 5px;
         }
+
         p {
-            color: #555;
+            color: var(--muted-text-color);
         }
-        a {
-            display: inline-block;
+
+        .container-calendar {
+            background: #ddd;
+            color: #000000;
+            padding: 15px;
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: auto;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .table-calendar {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+            background: #115c6d;
+        }
+
+        .table-calendar th,
+        .table-calendar td {
+            padding: 10px;
+            border: 1px solid #e2e2e2;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .table-calendar .weekdays {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .table-calendar .date-picker {
+            position: relative;
+            cursor: not-allowed;
+            background: var(--button-bg);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .table-calendar .date-picker.selected {
+            background-color: #add8e6; /* Light blue */
+            font-weight: bold;
+        }
+
+        .table-calendar .date-picker.between {
+            background-color: #add8e6; /* Light blue */
+            font-weight: bold;
+            color: white;
+        }
+
+        .table-calendar .date-marker {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1); /* Gray out booked dates */
+            pointer-events: none;
+            border-radius: 5px;
+        }
+
+        #event-section {
+            padding: 10px;
+            background: var(--container-bg);
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            width: 100%;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        #event-section h3 {
+            color: #333;
+            font-size: 18px;
+            margin: 0 0 10px 0;
+        }
+
+        #event-section input[type="date"],
+        #event-section input[type="text"] {
+            margin: 10px 0;
+            padding: 5px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        #event-section button {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button-container-calendar {
+            position: relative;
+            margin-bottom: 1em;
+            overflow: hidden;
+            clear: both;
+            text-align: center;
+        }
+
+        .button-container-calendar button {
+            cursor: pointer;
+            background: #115c6d;
+            color: #ffffff;
+            border: 1px solid var(--button-bg);
+            border-radius: 4px;
+            padding: 5px 10px;
+        }
+
+        .footer-container-calendar {
             margin-top: 10px;
-            text-decoration: none;
-            color: #007BFF;
-        }
-        a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <a href="{{ url_for('get_all_properties') }}" class="back-arrow">
+            <button class="sign-in">&larr; Back to listings</button>
+        </a>
+        <button class="sign-in">
+            {% if session['logged_in'] %}
+                {{ session['email'] }}
+            {% else %}
+                <a href="{{ url_for('login') }}">Sign In</a>
+            {% endif %}
+        </button>
+    </div>
     <h1>Property Details</h1>
     <div class="property-details">
         <div class="property-image"></div>
-        <p><strong>Address:</strong> {{ property['address'] }}</p>
-        <p><strong>Price:</strong> ${{ property['price'] }}</p>
-        <p><strong>Description:</strong> {{ property['description'] }}</p>
-        <p><strong>user:</strong> {{ user['name'] }}</p>
-        <a href="{{ url_for('list_all_properties') }}">Back to listings</a>
+        <p><strong>Property:</strong> {{ property.name }}</p>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+        <p><strong>Description:</strong> {{ property.description }}</p>
+        <p><strong>Owner:</strong> <a href="{{ url_for('get_properties_by_owner', owner_id=property.owner_id) }}">{{ user.name }}</a></p>
+
+        <!-- New Dynamic Calendar -->
+        <div class="wrapper">
+            <div class="container-calendar">
+                <div id="event-section">
+                    <h3>Add Booking</h3>
+                    <form action="/bookings/new" method="POST">
+                        <input type="hidden" id="property_id" name="property_id" value="{{ property.id }}">
+                        <input type="date" id="startDate" name="startDate" placeholder="Start Date">
+                        <input type="date" id="endDate" name="endDate" placeholder="End Date">
+                        <input type="hidden" id="title" name="title" value="{{ property.name }} for {{ user.name }}">
+                        <input type="hidden" id="price" name="price" value="{{ property.price }}">
+                        <button type="submit">Add Booking</button>
+                        <!-- <input type="text" id="bookingTitle" placeholder="Booking Title"> -->
+                        <!-- <button id="addBooking" onclick="addBooking()">Add Booking</button> -->
+                    </form>
+                </div>
+                <h3 id="monthAndYear"></h3>
+                <div class="month-navigation button-container-calendar">
+                    <button id="prev-month" onclick="previous()">‹</button>
+                    <button id="next-month" onclick="next()">›</button>
+                </div>
+                <div id="calendar"></div>
+                <div class="footer-container-calendar">
+                    <label for="month">Jump To: </label>
+                    <select id="month" onchange="jump()">
+                        <option value=0>Jan</option>
+                        <option value=1>Feb</option>
+                        <option value=2>Mar</option>
+                        <option value=3>Apr</option>
+                        <option value=4>May</option>
+                        <option value=5>Jun</option>
+                        <option value=6>Jul</option>
+                        <option value=7>Aug</option>
+                        <option value=8>Sep</option>
+                        <option value=9>Oct</option>
+                        <option value=10>Nov</option>
+                        <option value=11>Dec</option>
+                    </select>
+                    <select id="year" onchange="jump()"></select>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+        const calendar = document.getElementById('calendar');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const requestBookingBtn = document.getElementById('addBooking');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        const monthYearSpan = document.getElementById('monthAndYear');
+        const monthSelect = document.getElementById('month');
+        const yearSelect = document.getElementById('year');
+
+        let currentDate = new Date();
+        let selectedStartDate = null;
+        let selectedEndDate = null;
+        let bookedDates = [];
+        let unavailableDates = [5, 6, 15]; // Example unavailable dates
+
+        const updateCalendar = () => {
+            calendar.innerHTML = '';
+
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            monthYearSpan.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
+
+            // Create table for calendar
+            const table = document.createElement('table');
+            table.classList.add('table-calendar');
+
+            // Create header row for weekdays
+            const headerRow = document.createElement('tr');
+            headerRow.classList.add('weekdays');
+            const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            weekdays.forEach(day => {
+                const th = document.createElement('th');
+                th.textContent = day;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            // Create rows and cells for days
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('td');
+                    const dateDiv = document.createElement('div');
+                    dateDiv.classList.add('date-picker');
+
+                    if (i === 0 && j < firstDay) {
+                        // Empty cells before first day of month
+                        cell.appendChild(dateDiv);
+                    } else if (date > daysInMonth) {
+                        // Empty cells after last day of month
+                        cell.appendChild(dateDiv);
+                    } else {
+                        // Actual date cells
+                        dateDiv.textContent = date;
+                        dateDiv.dataset.date = new Date(year, month, date).toISOString().split('T')[0];
+
+                        if (bookedDates.includes(date) || unavailableDates.includes(date)) {
+                            dateDiv.classList.add('unavailable');
+                        } else if (selectedStartDate && selectedEndDate) {
+                            const currentDate = new Date(year, month, date);
+                            if (currentDate >= selectedStartDate && currentDate <= selectedEndDate) {
+                                dateDiv.classList.add('selected');
+                            }
+                        } else if (selectedStartDate && !selectedEndDate) {
+                            const currentDate = new Date(year, month, date);
+                            if (currentDate >= selectedStartDate) {
+                                dateDiv.classList.add('selected');
+                            }
+                        }
+
+                        cell.appendChild(dateDiv);
+                        date++;
+                    }
+
+                    row.appendChild(cell);
+                }
+
+                table.appendChild(row);
+            }
+
+            calendar.appendChild(table);
+        };
+
+        const selectDate = (dateDiv) => {
+            const date = new Date(dateDiv.dataset.date);
+            if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
+                selectedStartDate = date;
+                selectedEndDate = null;
+            } else if (!selectedEndDate) {
+                if (date < selectedStartDate) {
+                    selectedEndDate = selectedStartDate;
+                    selectedStartDate = date;
+                } else {
+                    selectedEndDate = date;
+                }
+            } else {
+                if (date < selectedStartDate) {
+                    selectedStartDate = date;
+                } else if (date > selectedEndDate) {
+                    selectedEndDate = date;
+                } else {
+                    if ((date - selectedStartDate) < (selectedEndDate - date)) {
+                        selectedStartDate = date;
+                    } else {
+                        selectedEndDate = date;
+                    }
+                }
+            }
+            updateCalendar();
+            updateDateInputs();
+        };
+
+        const updateDateInputs = () => {
+            startDateInput.value = selectedStartDate ? selectedStartDate.toISOString().split('T')[0] : '';
+            endDateInput.value = selectedEndDate ? selectedEndDate.toISOString().split('T')[0] : '';
+        };
+
+        const previous = () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            updateCalendar();
+        };
+
+        const next = () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            updateCalendar();
+        };
+
+        const jump = () => {
+            currentDate.setFullYear(parseInt(yearSelect.value));
+            currentDate.setMonth(parseInt(monthSelect.value));
+            updateCalendar();
+        };
+
+        const initializeCalendar = () => {
+            for (let i = currentDate.getFullYear() - 10; i <= currentDate.getFullYear() + 10; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                yearSelect.appendChild(option);
+            }
+            yearSelect.value = currentDate.getFullYear();
+            monthSelect.value = currentDate.getMonth();
+            updateCalendar();
+        };
+
+        initializeCalendar();
+
+        requestBookingBtn.addEventListener('click', () => {
+            if (startDateInput.value && endDateInput.value) {
+                const startDate = new Date(startDateInput.value);
+                const endDate = new Date(endDateInput.value);
+
+                if (startDate > endDate) {
+                    alert('End date must be after start date.');
+                    return;
+                }
+
+                const bookingRange = [];
+                for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+                    bookingRange.push(new Date(d).getDate());
+                }
+
+                bookedDates = [...bookedDates, ...bookingRange];
+                selectedStartDate = null;
+                selectedEndDate = null;
+                updateCalendar();
+            }
+        });
+
+        const addBooking = async () => {
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            const title = document.getElementById('bookingTitle').value;
+
+            const response = await fetch('/add_booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ startDate, endDate, title }),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert('Booking added successfully!');
+            } else {
+                alert('Failed to add booking.');
+            }
+        };
+    </script>
 </body>
 </html>
