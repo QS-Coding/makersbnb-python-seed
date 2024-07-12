@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
 </head>
 <body>
+    <a href="{{ url_for('get_all_properties') }}" class="back-arrow">
+        <button class="sign-in">&larr; Back to listings</button>
+    </a>
     <div class="header">
         <h1>All Properties</h1>
         <a href="{{ url_for('login') }}" class="sign-in">
