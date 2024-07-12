@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
 </head>
 <body>
+    <a href="{{ url_for('get_all_properties') }}" class="back-arrow">
+        <button class="sign-in">&larr; Back to listings</button>
+    </a>
     <h2>My Properties</h2>
     <div class="property-list">
         {% for space in properties %}

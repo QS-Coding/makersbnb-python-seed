@@ -1,6 +1,7 @@
 import os
-from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for
+from flask import Flask, request, render_template, redirect, jsonify, session, abort, url_for, send_from_directory, current_app
 import json
+from datetime import datetime, date
 from datetime import datetime, date
 from lib.database_connection import get_flask_database_connection
 from lib.repositories.user_repository import UserRepository
@@ -165,40 +166,6 @@ def create_property():
     property = repository.add(property)
     return redirect(f"/property/{property.id}")  
 
-# Route for adding a booking
-@app.route('/add_booking', methods=['POST'])
-def add_booking():
-    """
-    Route for adding a booking.
-    :return: JSON response indicating success or failure.
-    """
-    data = request.get_json()
-    start_date = data['startDate']
-    end_date = data['endDate']
-    title = data['title']
-
-    connection = get_flask_database_connection(app)
-    booking_repository = BookingRepository(connection)
-
-    # Create a new booking object
-    booking = Booking(
-        property_id=1,  # Replace with actual property_id
-        user_id=1,      # Replace with actual user_id
-        requested_from=start_date,
-        requested_to=end_date,
-        is_confirmed=False,
-        total_price=100,  # Replace with actual price calculation
-        created_at=datetime.now()
-    )
-
-    try:
-        booking_repository.create(booking)
-        return jsonify({'status': 'success'})
-    except Exception as e:
-        print(e)
-        return jsonify({'status': 'failure'}), 500
-
-
 # List properties owned by a specific user (owner)
 @app.route("/properties/owner/<int:owner_id>", methods = ['GET'])
 def get_properties_by_owner(owner_id):
@@ -235,7 +202,23 @@ def new_booking():
         total_price = float(price) * float(days.days)
         booking = Booking(None,property_id=property_id, user_id=user_id, requested_from=requested_from, requested_to=requested_to, is_confirmed=False, total_price=total_price,created_at=datetime.now())
         booking_repository.create(booking)
-    return f"New booking request created"
+    else:
+        error = "It seems you haven't specified the dates of your booking request."
+        return f"<h3>{error}</h3>"
+    return redirect(url_for('my_bookings'))
+
+# List booking requests created by me
+# FOR KARLA TO SUBSTITUTE WITH HER FUNCTION
+@app.route("/bookings/my", methods = ['GET'])
+def my_bookings():
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    connection = get_flask_database_connection(app)
+    booking_repository = BookingRepository(connection)
+    my_requests = booking_repository.all_bookings_of_user(session['user_id'])
+    print (f"HERE MY BOOKINGS!!")
+    print (f"{my_requests}")
+    return render_template("my_bookings.html", my_requests = my_requests)
 
 
 # List all my bookings by a specific user (guest)
@@ -253,6 +236,38 @@ def get_all_my_bookings_by_user(user_id):
         else:
             return f"<h3> Sorry, but you can see detail of your bookings only. </h3>"
 
+# Route for adding a booking
+# @app.route('/add_booking', methods=['POST'])
+# def add_booking():
+#     """
+#     Route for adding a booking.
+#     :return: JSON response indicating success or failure.
+#     """
+#     data = request.get_json()
+#     start_date = data['startDate']
+#     end_date = data['endDate']
+#     title = data['title']
+
+#     connection = get_flask_database_connection(app)
+#     booking_repository = BookingRepository(connection)
+
+#     # Create a new booking object
+#     booking = Booking(
+#         property_id=1,  # Replace with actual property_id
+#         user_id=1,      # Replace with actual user_id
+#         requested_from=start_date,
+#         requested_to=end_date,
+#         is_confirmed=False,
+#         total_price=100,  # Replace with actual price calculation
+#         created_at=datetime.now()
+#     )
+
+#     try:
+#         booking_repository.create(booking)
+#         return jsonify({'status': 'success'})
+#     except Exception as e:
+#         print(e)
+#         return jsonify({'status': 'failure'}), 500
 
 if __name__ == '__main__':
     # Run the Flask application

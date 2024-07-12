@@ -61,6 +61,9 @@
     </style>
 </head>
 <body>
+    <a href="{{ url_for('get_all_properties') }}" class="back-arrow">
+        <button class="sign-in">&larr; Back to listings</button>
+    </a>
     <div class="property-form-container">
         <h1>New Property</h1>
         <form action="/properties/created" method="post">
