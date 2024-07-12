@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings by User</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <h2>My Bookings</h2>
+    <div class="booking-list">
+        {% if bookings %}
+            {% for booking in bookings %}
+                <div class="booking-item">
+                    <div class="booking-image"></div>
+                    <a class="booking-property_id" href="{{ url_for('property_detail', property_id=space['id']) }}">{{ space['name'] }}</a>
+                    <p class="booking-requested_from">{{ space['requested'] }}</p>
+                    <p class="property-price">${{ space['price'] }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You have not booked any properties</p>
+        {% endif %}
+    </div>
+</body>
+</html>
