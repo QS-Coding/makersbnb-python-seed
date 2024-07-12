@@ -17,30 +17,20 @@
     <!-- Iterate over properties and display each one -->
     {% for property in properties %}
     <div class="property-item">
-        <div class="property-image"></div>
+        <div class="property-image">
+            <img src="/image/{{ property.id }}" width="300" height="200" sizes="">
+        </div>
         <a class="property-address" href="/property/{{ property.id }}">
             {{ property.address }}
         </a>
-    </div>
-    <div class="property-list">
-        <!-- Iterate over properties and display each one -->
-        {% for property in properties %}
-        <div class="property-item">
-            <div class="property-image">
-                <img src="/image/{{ property.id }}" width="300" height="200" sizes="">
-            </div>
-            <a class="property-address" href="/property/{{ property.id }}">
-                {{ property.address }}
-            </a>
-            <a class="property-name" href="/property/{{ property.id }}">
-                {{ property.name }}
-            </a>
-            <div class="property-description">
-                {{ property.description }}
-            </div>
-            <div class="property-price">
-                ${{ property.price }}
-            </div>
+        <a class="property-name" href="/property/{{ property.id }}">
+            {{ property.name }}
+        </a>
+        <div class="property-description">
+            {{ property.description }}
+        </div>
+        <div class="property-price">
+            ${{ property.price }}
         </div>
     </div>
     {% endfor %}
