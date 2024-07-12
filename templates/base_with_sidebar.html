@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Maker's BnB{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="{{ url_for('dashboard') }}">Home</a>
+        <a href="{{ url_for('get_all_properties') }}">Property Listings</a>
+        {% if session['logged_in'] %}
+        <a href="{{ url_for('get_properties_by_owner', owner_id=session['user_id']) }}">My Properties</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+        <a href="{{ url_for('signup') }}">Register</a>
+        <a href="{{ url_for('login') }}">Log In</a>
+        {% endif %}
+    </div>
+
+    <!-- Open button -->
+    <button class="openbtn" onclick="openNav()">&#9776;</button>
+
+    <!-- Main Content -->
+    <div id="main">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from lib.repositories.booking_repository import *
+from lib.repositories.property_repository import *
 from lib.models.booking import *
 from datetime import date
 
@@ -57,3 +58,16 @@ def test_all_bookings_by_property_id(db_connection):
         Booking(2, 1, 1, date(2024, 9, 1), date(2024, 9, 4), False, 300.0, date(2024, 7, 9))
     ]
 
+def test_is_booking_available(db_connection):
+    db_connection.seed('seeds/makersbnb_db.sql')
+
+    repository = BookingRepository(db_connection)
+
+    repository.confirm_booking(1)
+
+    result = repository.is_booking_available(Booking(None, 1, 1, date(2024, 7, 6), date(2024, 7, 10), None, 300.0, date(2024, 7, 2)))
+    assert result == False
+    result2 = repository.is_booking_available(Booking(None, 1, 1, date(2024, 8, 1), date(2024, 8, 4), None, 300.0, date(2024, 7, 11)))
+    assert result2 == True
+    result3 = repository.is_booking_available(Booking(None, 1, 1, date(2025, 9, 1), date(2025, 9, 4), None, 300.0, date(2024, 7, 9)))
+    assert result3 == False
