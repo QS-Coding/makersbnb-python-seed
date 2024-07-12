@@ -207,12 +207,16 @@ a:hover {
 }
 
 #event-section button {
-    background: var(--button-bg);
+    background: #483D8B; /* Dark Slate Blue for buttons */
     color: white;
     border: none;
     padding: 10px 20px; /* Increased padding */
     cursor: pointer;
     border-radius: 5px;
+}
+
+#event-section button:hover {
+    background-color: #4B8B3B; /* Forest Green for button hover */
 }
 
 .button-container-calendar {
