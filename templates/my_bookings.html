@@ -1,10 +1,10 @@
 {% extends "base_with_sidebar.html" %}
 
-{% block title %}My bookings{% endblock %}
+{% block title %}My Bookings{% endblock %}
 
 {% block content %}
 <a href="{{ url_for('get_all_properties') }}" class="back-arrow">
-    <button class="sign-in">&larr; Back to listings</button>
+    <button class="btn-back">&larr; Back to listings</button>
 </a>
 <div class="header">
     <h1>My Bookings</h1>
@@ -15,19 +15,11 @@
             Sign In
         {% endif %}
     </a>
-    <div class="header">
-        <h1>My bookings</h1>
-        <a href="{{ url_for('login') }}" class="sign-in">
-            {% if session['logged_in'] %}
-                {{ session['email'] }}
-            {% else %}
-                Sign In
-            {% endif %}
-        </a>
-    </div>
+</div>
+<div class="my-bookings-container">
     <div class="my-bookings">
-        <!-- Iterate over properties and display each one -->
-            <table border="1">
+        <table class="bookings-table">
+            <thead>
                 <tr>
                     <th>Property Name</th>
                     <th>Requested By</th>
@@ -36,6 +28,8 @@
                     <th>Confirmed</th>
                     <th>Total Price</th>
                 </tr>
+            </thead>
+            <tbody>
                 {% for booking in my_requests %}
                 <tr>
                     <td>{{ booking.property_name }}</td>
@@ -43,11 +37,11 @@
                     <td>{{ booking.requested_from }}</td>
                     <td>{{ booking.requested_to }}</td>
                     <td>{{ booking.is_confirmed }}</td>
-                    <td>{{ booking.total_price }}</td>
+                    <td>${{ booking.total_price }}</td>
                 </tr>
                 {% endfor %}
-            </table>
+            </tbody>
+        </table>
     </div>
-    {% endblock %}
-</body>
-</html>
+</div>
+{% endblock %}
