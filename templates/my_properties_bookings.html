@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My properties bookings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <div class="my-property-bookings">
+        <!-- Iterate over properties and display each one -->
+            <table border="1">
+                <tr>
+                    <th>
+                        Property
+                    </th>
+                    <th>
+                        Requested by
+                    </th>
+                    <th>
+                        Is confirmed
+                    </th>
+                    <th>
+                        Start date
+                    </th>
+                    <th>
+                        End date
+                    </th>
+                    <th>
+                        Total Price
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+                {% for booking in my_requests %}
+                <tr>
+                    <td>
+                        {{booking.property_name}}
+                    </td>
+                    <td>
+                        {{booking.requested_by}}
+                    </td>
+                    <td>
+                        {{booking.is_confirmed}}
+                    </td>
+                    <td>
+                        {{booking.requested_from}}
+                    </td>
+                    <td>
+                        {{booking.requested_to}}
+                    </td>
+                    <td>
+                        {{booking.total_price}}
+                    </td>
+                    <td>
+                        <button type="submit">Confirm</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+    </div>
+</body>
+</html>

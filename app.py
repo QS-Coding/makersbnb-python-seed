@@ -10,9 +10,11 @@ from lib.models.property import Property
 from lib.models.booking import Booking
 from lib.models.user import User
 from lib.models.image import Image
+from lib.models.my_booking import MyBooking
 from lib.repositories.property_repository import PropertyRepository
 from lib.repositories.booking_repository import BookingRepository
 from lib.repositories.image_repository import ImageRepository
+from lib.repositories.my_booking_repo import MyBookingRepo
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='1b973299943650f6c7daf012'
@@ -223,6 +225,17 @@ def my_bookings():
     print (f"{my_requests}")
     return render_template("my_bookings.html", my_requests = my_requests)
 
+# List of my properies bookings
+@app.route("/bookings/properties/my", methods = ['GET'])
+def my_properties_bookings():
+    if 'logged_in' not in session:
+            return redirect(url_for('login'))
+    connection = get_flask_database_connection(app)
+    booking_repository = MyBookingRepo(connection)
+    my_requests = booking_repository.all_my_property_bookings(session['user_id'])
+    print (f"HERE MY BOOKINGS!!")
+    print (f"{my_requests}")
+    return render_template("my_properties_bookings.html", my_requests = my_requests)
 
 """
 Upload images prototype
