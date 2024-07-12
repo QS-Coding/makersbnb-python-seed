@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS bookings;
+DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS properties;
 DROP TABLE IF EXISTS users;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
@@ -24,6 +25,13 @@ CREATE TABLE properties (
     owner_id INT NOT NULL
 );
 
+-- Property images table
+CREATE TABLE images (
+    id SERIAL PRIMARY KEY,
+    property_id INT NOT NULL,
+    image BYTEA NOT NULL
+);
+
 -- Bookings table
 CREATE TABLE bookings (
     id SERIAL PRIMARY KEY,
@@ -37,6 +45,7 @@ CREATE TABLE bookings (
 );
 
 ALTER TABLE properties ADD FOREIGN KEY (owner_id) REFERENCES users (id);
+ALTER TABLE images ADD FOREIGN KEY (property_id) REFERENCES properties (id);
 ALTER TABLE bookings ADD FOREIGN KEY (property_id) REFERENCES properties (id);
 ALTER TABLE bookings ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
